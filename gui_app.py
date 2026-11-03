@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-import json
+
 import psycopg2
 # Importiere die Funktionen aus der zweiten Datei
 import db_helpers as db
@@ -94,6 +94,6 @@ else:
         for row in history:
             with st.expander(f"Abfrage vom {row[2].strftime('%d.%m.%Y %H:%M:%S')}"):
                 st.code(row[0], language="sql")
-                st.json(json.loads(row[1]))
+                st.json(row[1])
     else:
         st.info("Du hast noch keine Abfragen gespeichert.")
