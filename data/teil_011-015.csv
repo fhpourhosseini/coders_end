@@ -1,0 +1,27 @@
+﻿objid,waldbrandid,jahr,monat,tag,bundesland,gemeinde,brandart,brandflaeche,ursache1,feuerwehren,einsatzkraefte,quelle1,verifiziert,gemeinde_neu,brandflaeche_korr,schutzwald,longitude,latitude
+10729,2015120702,2015,12,7,K,Reißeck,6,500,1,2,18,http://www.feuerwehr-ktn.at/cms/index.php?id=184&tx_ttnews[tt_news]=6373&cHash=b6ba2254b4e51892dacc663a5703c218,True,Reißeck,0.0,-9999,13.306,46.884
+60259,2011071101,2011,7,11,K,,0,200,1,-9999,-9999,,True,Techelsberg am Wörther See,0.0,0,14.075,46.632
+11780,2011033001,2011,3,30,T,Kirchdorf in Tirol,0,14670,1,5,-9999,"http://www.feuerwehr-stjohann.at/Waldbrand_pid,560,nid,9861,type,newsdetail.html",True,Kirchdorf in Tirol,17020.0,1,12.521,47.566
+7401,2014122401,2014,12,24,T,Serfaus,0,50,1,2,35,http://www.ff-fiss.at/seiten15/cmsneu/daten/ff_articles.php?action=showarticle&pgn=1&openfile=20141224-200813-de&set_filter=&set_modul=ff_articles,True,Serfaus,,2,10.591,47.024
+2386,2013080101,2013,8,1,NOE,St. Egyden am Steinfeld,0,199700,1,33,320,http://noe.orf.at/news/stories/2595920/,True,St. Egyden am Steinfeld,199720.0,1,16.148,47.773
+11208,2012121101,2012,12,11,NOE,Statzendorf,2,1,1,1,-9999,http://www.ff-statzendorf.org/2012/12/11/flurbrand-beim-windschutzg%C3%BCrtel-n%C3%A4he-firma-hauer/#,True,Statzendorf,,1,15.644,48.307
+4032,2013091201,2013,9,12,NOE,Kilb,5,1,1,2,-9999,http://www.bfk-melk.at/cms/news/einsaetze/2431-ff-kettenreith-hohler-baum-brannte-12092013,True,Kilb,0.0,-9999,15.381,48.079
+4077,2013072916,2013,7,29,BGLD,Strem,6,600,1,2,-9999,http://www.ff-strem.at/index.php/9-einsatzberichte/einsatzberichte-2013/12-einsatzbericht-29-07-2013,True,Strem,0.0,-9999,16.399,47.046
+2325,2013072906,2013,7,29,STMK,St. Lorenzen im Mürztal,5,1,1,1,-9999,http://feuerwehr-lorenzen.at/index.php/einsaetze/703-29072013-1730-bis-2200-uhr-unwettereinsaetze,True,Sankt Lorenzen im Mürztal,0.0,-9999,15.379,47.502
+1107,2011030402,2011,3,4,K,Althofen,6,800,1,1,8,http://www.ff-althofen.at/default.asp?scid=1279,True,Althofen,0.0,-9999,14.458,46.878
+11194,2013040701,2013,4,7,T,Längenfeld,6,10,2,1,-9999,http://www.ff-laengenfeld.at/einsaetze2013.htm,True,Längenfeld,0.0,-9999,10.96,47.064
+9290,2015072502,2015,7,25,NOE,St. Egyden am Steinfeld,2,1510,1,6,69,http://www.einsatzdoku.at/2015/07/25/noe-bez-nk-flaechenbrand-nr-7-im-foehrenwald/,True,St. Egyden am Steinfeld,1510.0,1,16.149,47.773
+11351,2012042910,2012,4,29,OOE,St. Pankraz,6,30,2,1,-9999,http://www.ff-hinterstoder.at/index.php/einsatzdatenbank?view=show&id=208&Monat=0&department=0&data=0&all=,True,St. Pankraz,0.0,-9999,14.209,47.765
+11455,2012032206,2012,3,22,OOE,Steyr,6,300,1,1,29,http://www.ff-steyr.at/main.php?page=aktuelles&bereich=%&id=1363,True,Steyr,0.0,-9999,14.456,48.057
+2702,2013080701,2013,8,7,OOE,Klaus an der Pyhrnbahn,1,9450,0,3,35,http://www.fireworld.at/cms/story.php?id=46638,True,Hinterstoder,17830.0,1,14.137,47.745
+57,2013041103,2013,4,11,T,Anras,6,500,1,1,24,http://www.ff-anras.at/index.php?option=com_content&view=article&id=109:wiesenbrand-raut-11042013&catid=71:2013&Itemid=95,True,Anras,0.0,-9999,12.577,46.782
+11557,2012011201,2012,1,12,NOE,Loosdorf,6,20,1,1,-9999,http://www.netteam.at/gemeinden/user/31520/default.asp?kat=1310&dok_id=23164&mkat=1310&gal_user_id=268,True,Loosdorf,0.0,-9999,15.416,48.209
+1441,2011123106,2011,12,31,NOE,Ravelsbach,5,3,1,2,37,http://www.ffmaissau.at/einsaetze/einsatzarchiv-2011/31122011---brandeinsatz.php,True,Ravelsbach,0.0,-9999,15.833,48.558
+1520,2012032509,2012,3,25,NOE,Gmünd,6,500,1,3,-9999,http://www.markusb.at/ff/einsaetze12.php,True,Gmünd,0.0,-9999,14.981,48.795
+2155,2013072603,2013,7,26,K,Köttmannsdorf,0,500,1,4,80,http://www.feuerwehr-ferlach.at/brand-hollenburgwald2013.htm,True,Köttmannsdorf,,0,14.268,46.549
+5302,2014033001,2014,3,30,STMK,Oberwölz Umgebung,2,100,1,1,25,http://www.feuerwehr-oberwoelz.at/index.php/einsaetze?id=48,True,Oberwölz,0.0,0,14.292,47.202
+7167,2015031801,2015,3,18,NOE,Puchberg am Schneeberg,2,3000,1,1,-9999,http://www.ff-puchberg.at/index.php/berichte/einsatzberichte/213-waldbrand-birkenallee,True,Puchberg am Schneeberg,0.0,0,15.889,47.782
+6125,2014062501,2014,6,25,NOE,Untersiebenbrunn,2,100000,1,4,-9999,http://www.feuerwehr-untersiebenbrunn.at/,True,Untersiebenbrunn,0.0,1,16.75,48.274
+11729,2011042101,2011,4,21,T,Innervillgraten,2,72050,1,3,130,http://tirol.orf.at/stories/511612,True,Innervillgraten,88900.0,2,12.313,46.86
+9110,2015072203,2015,7,22,NOE,Senftenberg,2,15000,1,7,-9999,http://www.fireworld.at/berichte/details/news/noe-sieben-feuerwehren-bei-waldbrand-im-ensatz-video/,True,Senftenberg,0.0,0,15.504,48.475
+2469,2013073101,2013,7,31,NOE,Scheiblingkirchen-Thernberg,2,25000,1,3,-9999,http://www.ff-scheiblingkirchen.org/index.php/einsaetze/210-31-07-2013-waldbrand-flurbrand-in-neustift-thernberg,True,Scheiblingkirchen-Thernberg,0.0,0,16.165,47.666
