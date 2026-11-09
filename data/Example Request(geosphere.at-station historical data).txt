@@ -1,0 +1,39 @@
+Parameters
+
+Name	Description
+resource_id * - string(path) - ID of dataset: klima-v2-1d
+parameters * - array[string](query) - At least one parameter has to be specified. See Request URL: https://dataset.api.hub.geosphere.at/v1/station/historical/klima-v2-1d/metadata
+
+tl_ii
+tlmax
+tl_mittel
+
+vvbft_ii
+vv_mittel
+rfb_ii
+rfb_mittel
+rf_ii
+rf_mittel
+rr_iii
+sh
+p_mittel
+
+start * - string($date-time)(query) - Supply in format: YYYY-MM-DDThh:mm. Time is optional.
+2007-07-26T00:00:00
+end * - string($date-time)(query) - Supply in format: YYYY-MM-DDThh:mm. Time is optional.
+2007-07-26T00:00:00
+station_ids * - array[string](query) - At least one station id has to be specified. See Request URL: https://dataset.api.hub.geosphere.at/v1/station/historical/klima-v2-1d/metadata
+"id": 164, "name": "Berndorf", "state": "Niederösterreich", "lat": 47.93917, "lon": 16.10111,
+
+164
+-
+
+output_format - string(query) - See Request URL: https://dataset.api.hub.geosphere.at/v1/station/historical/klima-v2-1d/metadata
+  "response_formats": [    "geojson",    "csv"  ]
+csv
+filename - (query) - Filename without file extension
+
+geosphere.at_2007-07-26_164_dataset.csv
+
+Request URL
+https://dataset.api.hub.geosphere.at/v1/station/historical/klima-v2-1d?parameters=tl_ii&parameters=tlmax&parameters=vvbft_ii&parameters=rfb_ii&parameters=rf_ii&parameters=rf_mittel&parameters=rr_iii&parameters=sh&parameters=p_mittel&parameters=rfb_mittel&parameters=tl_mittel&parameters=vv_mittel&start=2007-07-26T00%3A00%3A00&end=2007-07-26T00%3A00%3A00&station_ids=164&output_format=csv&filename=geosphere.at_2007-07-26_164_dataset.csv
