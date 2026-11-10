@@ -1,32 +1,121 @@
 import hashlib
 import json
+import pandas as pd
+import psycopg2
+import pandas as pd
 
+
+
+def trigger_ai_pipeline(conn, username, bundesland):
+    """
+    Dummy-Funktion für die Pipeline deines Kollegen.
+    Dein Kollege muss hier:
+    1. Die 14-Tage-Wetterdaten holen.
+    2. Das KI-Modell füttern.
+    3. Die Ergebnisse per INSERT in die Tabelle 'waldbrand_vorhersagen' schreiben.
+    """
+    # Das ist für Dich. 
+    # Wichtig = folgendes INSERT-Format:
+    #
+    # cursor.execute(
+    #     "INSERT INTO waldbrand_vorhersagen (username, bundesland, koordinaten, gemeinde_bezeichnung, waldbrand_ja_nein, wahrscheinlichkeit) VALUES (%s, %s, point(%s, %s), %s, %s, %s)",
+    #     (username, bundesland, laengengrad, breitengrad, gemeinde, waldbrand_bool, wahrscheinlichkeit_float)
+    # )
+    pass
 def init_db(conn):
-    """Erstellt die Benutzer- und Historietabellen."""
-    # Nativ nutzt man unter Python immer einen cursor
-    with conn.cursor() as cursor:
-        # Benutzertabelle
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS users (
-                username TEXT PRIMARY KEY,
-                password_hash TEXT NOT NULL
-            );
-            """
-        )
-        # Historientabelle
-        cursor.execute(
-            """
-            CREATE TABLE IF NOT EXISTS query_history (
-                id SERIAL PRIMARY KEY,
-                username TEXT REFERENCES users(username) ON DELETE CASCADE,
-                sql_query TEXT NOT NULL,
-                query_result TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-            """
-        )
-        conn.commit()
+    """Erstellt alle benötigten Tabellen und setzt fehlerhafte Transaktionen zurück."""
+    try:
+        with conn.cursor() as cursor:
+            # 1. Benutzertabelle
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS users (
+                    username TEXT PRIMARY KEY,
+                    password_hash TEXT NOT NULL
+                );
+                """
+            )
+            # 2. Historientabelle für SQL-Abfragen
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS query_history (
+                    id SERIAL PRIMARY KEY,
+                    username TEXT REFERENCES users(username) ON DELETE CASCADE,
+                    sql_query TEXT NOT NULL,
+                    query_result TEXT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+                """
+            )
+            # 3. Ihre bestehende Ergebnis-Tabelle
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS waldbrand_ergebnisse (
+                    id SERIAL PRIMARY KEY,
+                    username VARCHAR(50),
+                    bundesland VARCHAR(50),
+                    gemeinde VARCHAR(100),
+                    latitude DOUBLE PRECISION,
+                    longitude DOUBLE PRECISION,
+                    wahrscheinlichkeit_prozent INT,
+                    abfrage_zeit TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+                """
+            )
+            conn.commit()
+    except Exception as e:
+        conn.rollback()
+        raise e
+
+def get_ai_results(conn, username, bundesland=None):
+    """Holt die KI-Ergebnisse aus der Tabelle waldbrand_ergebnisse."""
+    colnames = ["bundesland", "gemeinde", "latitude", "longitude", "wahrscheinlichkeit_prozent", "abfrage_zeit"]
+    try:
+        with conn.cursor() as cursor:
+            if bundesland:
+                query = """
+                    SELECT bundesland, 
+                           gemeinde, 
+                           latitude, 
+                           longitude, 
+                           wahrscheinlichkeit_prozent,
+                           abfrage_zeit
+                    FROM waldbrand_ergebnisse
+                    WHERE username = %s AND bundesland = %s
+                    ORDER BY abfrage_zeit DESC;
+                """
+                cursor.execute(query, (username, bundesland))
+            else:
+                query = """
+                    SELECT bundesland, 
+                           gemeinde, 
+                           latitude, 
+                           longitude, 
+                           wahrscheinlichkeit_prozent,
+                           abfrage_zeit
+                    FROM waldbrand_ergebnisse
+                    WHERE username = %s
+                    ORDER BY abfrage_zeit DESC;
+                """
+                cursor.execute(query, (username,))
+                
+            rows = cursor.fetchall()
+            
+        df = pd.DataFrame(rows, columns=colnames)
+        
+        if not df.empty:
+            # Leitet Ja/Nein automatisch aus der Prozentzahl ab (>= 50% -> Ja)
+            df["waldbrand_ja_nein"] = df["wahrscheinlichkeit_prozent"].apply(
+                lambda x: "🔴 Ja" if x >= 50 else "🟢 Nein"
+            )
+            # Formatiert die Zahl schön als Prozent-Text (z. B. "78%")
+            df["wahrscheinlichkeit_anzeige"] = df["wahrscheinlichkeit_prozent"].apply(lambda x: f"{x}%")
+            
+        return df
+    except Exception as e:
+        conn.rollback()
+        raise e
+
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
@@ -88,3 +177,21 @@ def get_user_history(conn, username):
         )
         result = cursor.fetchall()
         return result
+
+  #
+def init_wetter_table(conn):
+    with conn.cursor() as cur:
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS waldbrand_ergebnisse (
+                id SERIAL PRIMARY KEY,
+                username VARCHAR(50),
+                bundesland VARCHAR(50),
+                gemeinde VARCHAR(100),
+                latitude DOUBLE PRECISION,
+                longitude DOUBLE PRECISION,
+                wahrscheinlichkeit_prozent INT,
+                abfrage_zeit TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        """)
+        conn.commit()
+  
