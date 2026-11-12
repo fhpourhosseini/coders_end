@@ -1,0 +1,50 @@
+
+
+services:
+  db-container:
+    image: postgres:17
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  streamlit-app:
+    build: .
+    container_name: streamlit_gui
+    ports:
+      - "8501:8501"
+    depends_on:
+      - db-container
+    environment:
+      - STREAMLIT_CONNECTIONS_POSTGRESQL_DIALECT=postgresql
+      - STREAMLIT_CONNECTIONS_POSTGRESQL_USERNAME=${POSTGRES_USER}
+      - STREAMLIT_CONNECTIONS_POSTGRESQL_PASSWORD=${POSTGRES_PASSWORD}
+      - STREAMLIT_CONNECTIONS_POSTGRESQL_DATABASE=${POSTGRES_DB}
+      - STREAMLIT_CONNECTIONS_POSTGRESQL_HOST=db-container
+      - STREAMLIT_CONNECTIONS_POSTGRESQL_PORT=5432
+
+  pgadmin-container:
+    image: dpage/pgadmin4
+    container_name: pgadmin_gui
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      # Zeigt pgAdmin, wo die Autokonfiguration liegt
+      PGADMIN_SERVER_JSON_FILE: /pgadmin4/servers.json
+    ports:
+      - "8080:80"
+    depends_on:
+      - db-container
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      # Hier wird eure lokale Datei sicher in den Container geladen
+      - ./servers.json:/pgadmin4/servers.json:ro
+
+volumes:
+  pgdata:
+  pgadmin_data:
