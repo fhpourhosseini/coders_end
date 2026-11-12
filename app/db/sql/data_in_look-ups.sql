@@ -49,11 +49,11 @@ VALUES
     (0, NULL, 'Waldbrand (Forest fire): Pure forest fires affecting forest floor, timber, or young forest stands'),
     (1, NULL, 'Wald-/Latschenbrand (Forest / mountain pine fire): Alpine fires occurring at the timberline or inside dwarf mountain pine (Latschen) zones'),
     (2, NULL, 'Wald-/Flurbrand (Mixed forest / brush or meadow fire): Mixed fires affecting both forest land (at least 10% or 300 m²) and adjacent grassland, scrub, or embankments (Böschungsbrand)'),
-    (3, NULL),
-    (4, NULL),
+    (3, NULL, NULL),
+    (4, NULL, NULL),
     (5, NULL, 'Einzelbaumbrand / Baumbrand (Single tree fire): Isolated fires affecting individual trees (often triggered by lightning strikes, e.g., "hohler Baum brannte", "Brand eines Baumes")'),
     (6, NULL, 'Flurbrand (Field, meadow, hedge, or railway embankment fire): Non-forest vegetation fires, including meadows (Wiesenbrand), agricultural fields (Feldbrand / Stoppelfeld), reeds (Schilfbrand), hedges (Heckenbrand), and railway embankments (Bahndammbrand)'),
-    (7, NULL)
+    (7, NULL, NULL)
 ON CONFLICT (brandart_id) DO NOTHING;
 
 UPDATE public.brandart
