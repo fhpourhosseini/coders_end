@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Analyse DB Server",
+      "Group": "Servers",
+      "Host": "db-container",
+      "Port": 5432,
+      "MaintenanceDB": "training_db",
+      "Username": "postgres",
+      "SSLMode": "prefer",
+      "Username_comment": "Das Passwort wird beim ersten Klick abgefragt, oder kann via pgpass automatisiert werden."
+    }
+  }
+}
