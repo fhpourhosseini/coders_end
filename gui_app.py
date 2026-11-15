@@ -87,18 +87,3 @@ if not st.session_state["logged_in"]:
 else:
     show_dashboard(conn, st.session_state["username"])                   
 
-# 6. Hauptanwendung / Dashboard (Sichtbar nach Login)
-#else:
-    # Sidebar für Benutzer-Infos und Logout
-   # with st.sidebar:
-      #  st.write(f"Eingeloggt als: **{st.session_state['username']}**")
-      #  if st.button("Ausloggen"):
-           # st.session_state["logged_in"] = False
-          #  st.session_state["username"] = ""
-          #  st.rerun()
-
-    # Hier folgt der Inhalt des Dashboards
-    #st.title("🔥 Waldbrand Analyse Dashboard")
-   # st.write("Willkommen im Analyse-Tool. Nutzen Sie die Funktionen zur Auswertung.")
-    
-    # Platzhalter für die eigentliche Pipeline-Logik / Abfragen

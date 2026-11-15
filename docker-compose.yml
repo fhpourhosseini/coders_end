@@ -1,5 +1,4 @@
 
-
 services:
   db-container:
     image: postgres:17
@@ -12,21 +11,45 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - my_network
+
+  api-container:
+    build: .
+    container_name: fastapi_backend
+    command: uvicorn FastAPI_in_pipeline_container:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db-container
+    networks:
+      - my_network
+    environment:
+      DB_HOST: db-container
+      STREAMLIT_CONNECTIONS_POSTGRESQL_USERNAME: ${POSTGRES_USER}
+      STREAMLIT_CONNECTIONS_POSTGRESQL_PASSWORD: ${POSTGRES_PASSWORD}
+      STREAMLIT_CONNECTIONS_POSTGRESQL_DATABASE: ${POSTGRES_DB}
 
   streamlit-app:
     build: .
+    image: coders_end_localandnew-streamlit-app
     container_name: streamlit_gui
+    command: streamlit run gui_app.py --server.address=0.0.0.0 --server.port=8501
     ports:
       - "8501:8501"
     depends_on:
       - db-container
+      - api-container
+    networks:
+      - my_network
     environment:
-      - STREAMLIT_CONNECTIONS_POSTGRESQL_DIALECT=postgresql
-      - STREAMLIT_CONNECTIONS_POSTGRESQL_USERNAME=${POSTGRES_USER}
-      - STREAMLIT_CONNECTIONS_POSTGRESQL_PASSWORD=${POSTGRES_PASSWORD}
-      - STREAMLIT_CONNECTIONS_POSTGRESQL_DATABASE=${POSTGRES_DB}
-      - STREAMLIT_CONNECTIONS_POSTGRESQL_HOST=db-container
-      - STREAMLIT_CONNECTIONS_POSTGRESQL_PORT=5432
+      BACKEND_URL: http://api-container:8000
+      STREAMLIT_CONNECTIONS_POSTGRESQL_DIALECT: postgresql
+      STREAMLIT_CONNECTIONS_POSTGRESQL_USERNAME: ${POSTGRES_USER}
+      STREAMLIT_CONNECTIONS_POSTGRESQL_PASSWORD: ${POSTGRES_PASSWORD}
+      STREAMLIT_CONNECTIONS_POSTGRESQL_DATABASE: ${POSTGRES_DB}
+      STREAMLIT_CONNECTIONS_POSTGRESQL_HOST: db-container
+      STREAMLIT_CONNECTIONS_POSTGRESQL_PORT: 5432
 
   pgadmin-container:
     image: dpage/pgadmin4
@@ -34,7 +57,6 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      # Zeigt pgAdmin, wo die Autokonfiguration liegt
       PGADMIN_SERVER_JSON_FILE: /pgadmin4/servers.json
     ports:
       - "8080:80"
@@ -42,8 +64,13 @@ services:
       - db-container
     volumes:
       - pgadmin_data:/var/lib/pgadmin
-      # Hier wird eure lokale Datei sicher in den Container geladen
       - ./servers.json:/pgadmin4/servers.json:ro
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
 
 volumes:
   pgdata:

@@ -1,2 +1,8 @@
 streamlit
 psycopg2-binary
+fastapi
+uvicorn
+streamlit
+pandas
+requests
+psycopg2-binary

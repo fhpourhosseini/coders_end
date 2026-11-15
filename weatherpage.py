@@ -1,8 +1,10 @@
 import streamlit as st
 import pandas as pd
+import requests
 import db_helpers as db
 import time
 
+API_BASE_URL = "http://api-container:8000"
 def show_dashboard(conn, username):
     # 1. Session States für die Ansichtssteuerung initialisieren
     if "aktuelle_ansicht" not in st.session_state:
@@ -55,31 +57,49 @@ def show_dashboard(conn, username):
 
             if auswahl:
                 st.session_state["ausgewaehltes_bundesland"] = auswahl
-                
+
                 # Pipeline nur dann ausführen, wenn ein NEUES Bundesland gewählt wurde
                 if st.session_state["bereits_analysiert"] != auswahl:
-                    fortschritt = st.progress(0, text="Starte Pipeline...")
+                    fortschritt = st.progress(0, text="Sende Anfrage an Backend-API...")
                     
                     with st.status(f"Analyse für **{auswahl}** läuft...", expanded=True) as status:
-                        st.write("📥 Lade aktuelle Wetterdaten...")
-                        # TODO: Hier echten DB-Aufruf einfügen
-                        time.sleep(0.8) 
-                        fortschritt.progress(33, text="Daten geladen. Bereite Features auf...")
-                        
-                        st.write("⚙️ Verarbeite Daten in der Pipeline...")
-                        # TODO: Hier echte Pipeline-Logik einfügen
-                        time.sleep(0.8)
-                        fortschritt.progress(66, text="Pipeline fertig. Starte KI-Modell...")
-                        
-                        st.write("🤖 Berechne KI-Vorhersage...")
-                        # TODO: Hier echtes KI-Modell & Speichern in DB einfügen
-                        time.sleep(0.8)
-                        fortschritt.progress(100, text="Fertig!")
-                        
-                        status.update(label=f"Analyse für {auswahl} abgeschlossen!", state="complete", expanded=False)
-                    
-                    # Merken, dass dieses Bundesland gerade analysiert wurde
-                    st.session_state["bereits_analysiert"] = auswahl
+                        try:
+                            # 1. Job über POST /start anstoßen
+                            st.write("🚀 Starte KI-Pipeline im Backend...")
+                            start_resp = requests.post(
+                                f"{API_BASE_URL}/start",
+                                json={"username": username, "bundesland": auswahl},
+                                timeout=10
+                            )
+                            start_resp.raise_for_status()
+                            job_id = start_resp.json()["job_id"]
+                            
+                            fortschritt.progress(30, text="Pipeline gestartet. Warte auf Ergebnisse...")
+                            st.write("⏳ KI-Modell berechnet Waldbrandrisiko...")
+
+                            # 2. Polling über GET /status/{job_id}, bis status == "completed"
+                            while True:
+                                status_resp = requests.get(f"{API_BASE_URL}/status/{job_id}", timeout=10)
+                                status_resp.raise_for_status()
+                                status_data = status_resp.json()
+                                current_status = status_data.get("status")
+
+                                if current_status == "completed":
+                                    fortschritt.progress(100, text="Fertig!")
+                                    status.update(label=f"Analyse für {auswahl} abgeschlossen!", state="complete", expanded=False)
+                                    st.session_state["bereits_analysiert"] = auswahl
+                                    break
+                                elif current_status == "failed":
+                                    status.update(label="Fehler in der KI-Pipeline!", state="error")
+                                    st.error("Die Berechnung im Backend ist fehlgeschlagen.")
+                                    break
+                                
+                                fortschritt.progress(65, text="Berechnung läuft...")
+                                time.sleep(1.5)
+
+                        except requests.exceptions.RequestException as req_err:
+                            status.update(label="Verbindungsfehler zur API", state="error")
+                            st.error(f"Backend-API nicht erreichbar: {req_err}")
 
     # ==========================================
     # RECHTE SEITE: ANZEIGE
@@ -87,7 +107,6 @@ def show_dashboard(conn, username):
     with col_rechts:
         
         # Hilfsfunktion zur Darstellung der Daten (Tabelle oder Karte)
-                # Hilfsfunktion zur Darstellung der Daten (Tabelle oder Karte)
         def render_results_modular(df_data):
             if df_data.empty:
                 st.warning("Keine Daten für die Anzeige vorhanden.")
@@ -111,7 +130,6 @@ def show_dashboard(conn, username):
                 
             elif ansichts_modus == "🗺️ Interaktive Karte":
                 try:
-                    # Streamlit st.map erkennt die Spalten 'latitude' und 'longitude' automatisch!
                     df_map = df_data[["latitude", "longitude"]].dropna().copy()
                     df_map["latitude"] = pd.to_numeric(df_map["latitude"])
                     df_map["longitude"] = pd.to_numeric(df_map["longitude"])
@@ -120,7 +138,6 @@ def show_dashboard(conn, username):
                     st.map(df_map)
                 except Exception as map_err:
                     st.error(f"Fehler bei der Kartendarstellung: {map_err}")
-
 
         # ------------------------------------------
         # WETTER / AKTUELLES BUNDESLAND
@@ -145,7 +162,7 @@ def show_dashboard(conn, username):
         # ------------------------------------------
         elif st.session_state["aktuelle_ansicht"] == "history":
             st.subheader("⏳ Deine vergangenen Vorhersagen")
-            st.caption("Hier siehst du ausschließlich deine eigenen historischen Abfragen.")
+            st.caption("Hier siehst du deine historischen Abfragen.")
             
             try:
                 df_historie = db.get_ai_results(conn, username, bundesland=None)
