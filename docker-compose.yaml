@@ -16,7 +16,22 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+  pgadmin-wb:
+    image: dpage/pgadmin4
+    container_name: pgadmin_wb
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_SERVER_JSON_FILE: /pgadmin4/servers.json
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres-db-wb
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./servers.json:/pgadmin4/servers.json:ro
 
 volumes:
   postgres_data:
+  pgadmin_data:
   

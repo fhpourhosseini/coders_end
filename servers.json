@@ -1,9 +1,9 @@
 {
   "Servers": {
     "1": {
-      "Name": "Analyse DB Server",
+      "Name": "WB DB Server",
       "Group": "Servers",
-      "Host": "db-container",
+      "Host": "postgres-db-wb",
       "Port": 5432,
       "MaintenanceDB": "training_db",
       "Username": "postgres",
