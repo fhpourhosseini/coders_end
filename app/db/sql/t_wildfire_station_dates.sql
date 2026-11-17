@@ -65,3 +65,27 @@ SELECT
 FROM public.wildfire_station_dates w
 GROUP BY w.objid
 HAVING COUNT(w.before_date) < 15 OR COUNT(DISTINCT w.station_id) > 1;
+
+-- Add api_request as an IMMUTABLE GENERATED ALWAYS ... STORED column
+ALTER TABLE public.wildfire_station_dates
+ADD COLUMN api_request TEXT GENERATED ALWAYS AS (
+    'https://geosphere.at'
+    || '?parameters=tl_ii&parameters=tlmax&parameters=vvbft_ii&parameters=rfb_ii'
+    || '&parameters=rf_ii&parameters=rf_mittel&parameters=rr_iii&parameters=sh'
+    || '&parameters=p_mittel&parameters=rfb_mittel&parameters=tl_mittel&parameters=vv_mittel'
+    || '&start=' 
+    || EXTRACT(YEAR FROM before_date)::TEXT || '-' 
+    || LPAD(EXTRACT(MONTH FROM before_date)::TEXT, 2, '0') || '-' 
+    || LPAD(EXTRACT(DAY FROM before_date)::TEXT, 2, '0') || 'T00%3A00%3A00'
+    || '&end=' 
+    || EXTRACT(YEAR FROM before_date)::TEXT || '-' 
+    || LPAD(EXTRACT(MONTH FROM before_date)::TEXT, 2, '0') || '-' 
+    || LPAD(EXTRACT(DAY FROM before_date)::TEXT, 2, '0') || 'T00%3A00%3A00'
+    || '&station_ids=' || station_id::TEXT
+    || '&output_format=csv'
+    || '&filename=geosphere.at_' 
+    || EXTRACT(YEAR FROM before_date)::TEXT || '-' 
+    || LPAD(EXTRACT(MONTH FROM before_date)::TEXT, 2, '0') || '-' 
+    || LPAD(EXTRACT(DAY FROM before_date)::TEXT, 2, '0') || '_' 
+    || station_id::TEXT || '_dataset.csv'
+) STORED;
