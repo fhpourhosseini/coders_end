@@ -4,7 +4,7 @@ BEGIN;
 CREATE TABLE IF NOT EXISTS public.gemeinde_station_mapping (
     mapping_id SERIAL PRIMARY KEY,
     gemeinde_id INTEGER NOT NULL REFERENCES public.gemeinde(gemeinde_id) ON DELETE CASCADE,
-    station_id INTEGER NOT NULL REFERENCES public.weather_station(station_id) ON DELETE CASCADE,
+    station_id INTEGER NOT NULL REFERENCES public.klima_stations(station_id) ON DELETE CASCADE,
     rank INTEGER NOT NULL,
     distance_km NUMERIC(8, 2) NOT NULL,
     CONSTRAINT unique_gemeinde_station UNIQUE (gemeinde_id, station_id)
@@ -53,7 +53,6 @@ ranked_stations AS (
         gemeinde_id,
         station_id,
         distance_km,
-        exact_match,
         ROW_NUMBER() OVER (
             PARTITION BY gemeinde_id 
             ORDER BY exact_match DESC, distance_km ASC
@@ -66,8 +65,7 @@ SELECT
     gemeinde_id,
     station_id,
     rank,
-    distance_km,
-    exact_match
+    distance_km
 FROM ranked_stations
 WHERE rank <= 3
 ON CONFLICT (gemeinde_id, station_id) DO UPDATE SET

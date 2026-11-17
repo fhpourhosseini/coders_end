@@ -10,7 +10,7 @@ SELECT
     latitude,
     
     -- Calculated time intervals (Before Fire Event)
-    (brand_date - INTERVAL '15 days')::date AS period_before_start,
+    (brand_date - INTERVAL '14 days')::date AS period_before_start,
     (brand_date - INTERVAL '1 day')::date AS period_before_end,
     
     -- Calculated time intervals (After Fire Event)
@@ -19,7 +19,7 @@ SELECT
     
     -- Fixed tracking day counts derived directly from intervals
     ((brand_date + INTERVAL '15 days')::date - (brand_date + INTERVAL '1 day')::date) AS period_after_days,
-    ((brand_date - INTERVAL '1 day')::date - (brand_date - INTERVAL '15 days')::date) AS period_before_days
+    ((brand_date - INTERVAL '1 day')::date - (brand_date - INTERVAL '14 days')::date) AS period_before_days
 FROM 
     public.wildfires;
 
