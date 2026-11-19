@@ -1,0 +1,14 @@
+objid,waldbrandid,jahr,monat,tag,bundesland,gemeinde,brandart,brandflaeche,ursache1,feuerwehren,einsatzkraefte,quelle1,verifiziert,gemeinde_neu,brandflaeche_korr,schutzwald,longitude,latitude
+6776,2002031802,2002,3,18,K,Lendorf,0,-9999,1,-9999,-9999,http://www.feuerwehr-lendorf.at/index.php/Einsatzarchiv-2009/2009,True,Lendorf,,0,13.433,46.825
+11899,2010070802,2010,7,8,T,Natters,0,5,1,2,23,http://www.ffnatters.at/page.cfm?vpath=einsaetze&genericpageid=2332,True,Götzens,,0,11.338,47.239
+11861,2010072501,2010,7,25,STMK,Voitsberg,6,-9999,2,2,-9999,http://www.bfvvo.steiermark.at/desktopdefault.aspx/tabid-717/1052_read-14728/1052_page-2/,True,Voitsberg,,-9999,15.149,47.052
+12191,2009041402,2009,4,14,SBG,Anif,0,500,1,1,20,http://www.wax.at/modules.php?name=News&file=article&sid=32767,True,Anif,,0,13.079,47.737
+13207,2003120901,2003,12,9,T,Landeck,0,-9999,1,1,-9999,http://www.landeck-tirol.com/feuerwehr/aktuell_2003.asp,True,Landeck,,2,10.55,47.144
+4249,2004030801,2004,3,8,T,Imst,0,100,1,-9999,-9999,,True,Imst,,1,10.732,47.245
+13143,2004082401,2004,8,24,NOE,St. Egyden am Steinfeld,0,-9999,1,1,14,http://www.icebaer.at/ffurschendorf/index2p.htm,True,St. Egyden am Steinfeld,,1,16.099,47.788
+12236,2009040502,2009,4,5,T,Hopfgarten im Brixental,2,-9999,1,1,45,,True,Hopfgarten im Brixental,,2,12.154,47.455
+12492,2008012720,2008,1,27,K,Gmünd,0,-9999,1,1,-9999,http://www.ff-gmuend.net/index.php?p=einsaetze&y=2008,True,Gmünd in Kärnten,,0,13.546,46.917
+23304,2003032603,2003,3,26,W,Wien Favoriten,2,400,1,1,-9999,,True,Wien,,0,16.358,48.157
+13236,2003082801,2003,8,28,K,Eisenkappel-Vellach,0,-9999,0,-9999,-9999,,True,Eisenkappel-Vellach,,2,14.51,46.46
+23276,2008091301,2008,9,13,W,Wien Floridsdorf,2,2000,1,1,-9999,,True,Wien,,0,16.375,48.268
+23256,2010042103,2010,4,21,W,Wien Favoriten,6,500,1,1,-9999,,True,Wien,0.0,-9999,16.346,48.166
