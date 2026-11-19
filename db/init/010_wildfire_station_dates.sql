@@ -75,4 +75,7 @@ SET api_request =
     || '&output_format=csv'
     || '&filename=geosphere.at_' || TO_CHAR(before_date, 'YYYY-MM-DD') || '_' || station_id::TEXT || '_dataset.csv';
 
+ALTER TABLE public.wildfire_station_dates 
+ADD COLUMN IF NOT EXISTS status VARCHAR(20) DEFAULT 'pending';
+
 COMMIT;
