@@ -1,4 +1,3 @@
-
 services:
   db-container:
     image: postgres:17
@@ -11,45 +10,38 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-    networks:
-      - my_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5  
 
-  api-container:
-    build: .
+  fastapi-container:
+    build:
+      context: .
+      dockerfile: Dockerfile.api 
     container_name: fastapi_backend
-    command: uvicorn FastAPI_in_pipeline_container:app --host 0.0.0.0 --port 8000
     ports:
       - "8000:8000"
     depends_on:
-      - db-container
-    networks:
-      - my_network
+       db-container:
+         condition: service_healthy
     environment:
-      DB_HOST: db-container
-      STREAMLIT_CONNECTIONS_POSTGRESQL_USERNAME: ${POSTGRES_USER}
-      STREAMLIT_CONNECTIONS_POSTGRESQL_PASSWORD: ${POSTGRES_PASSWORD}
-      STREAMLIT_CONNECTIONS_POSTGRESQL_DATABASE: ${POSTGRES_DB}
+      - STREAMLIT_CONNECTIONS_POSTGRESQL_USERNAME=${POSTGRES_USER}
+      - STREAMLIT_CONNECTIONS_POSTGRESQL_PASSWORD=${POSTGRES_PASSWORD}
+      - STREAMLIT_CONNECTIONS_POSTGRESQL_DATABASE=${POSTGRES_DB}
+      - STREAMLIT_CONNECTIONS_POSTGRESQL_HOST=db-container
+      - STREAMLIT_CONNECTIONS_POSTGRESQL_PORT=5432
 
   streamlit-app:
     build: .
-    image: coders_end_localandnew-streamlit-app
     container_name: streamlit_gui
-    command: streamlit run gui_app.py --server.address=0.0.0.0 --server.port=8501
     ports:
       - "8501:8501"
     depends_on:
-      - db-container
-      - api-container
-    networks:
-      - my_network
+      - fastapi-container
     environment:
-      BACKEND_URL: http://api-container:8000
-      STREAMLIT_CONNECTIONS_POSTGRESQL_DIALECT: postgresql
-      STREAMLIT_CONNECTIONS_POSTGRESQL_USERNAME: ${POSTGRES_USER}
-      STREAMLIT_CONNECTIONS_POSTGRESQL_PASSWORD: ${POSTGRES_PASSWORD}
-      STREAMLIT_CONNECTIONS_POSTGRESQL_DATABASE: ${POSTGRES_DB}
-      STREAMLIT_CONNECTIONS_POSTGRESQL_HOST: db-container
-      STREAMLIT_CONNECTIONS_POSTGRESQL_PORT: 5432
+      - FASTAPI_URL=http://fastapi-container:8000
 
   pgadmin-container:
     image: dpage/pgadmin4
@@ -63,14 +55,8 @@ services:
     depends_on:
       - db-container
     volumes:
-      - pgadmin_data:/var/lib/pgadmin
+      - pgadmin_data:/pgadmin4/servers.json
       - ./servers.json:/pgadmin4/servers.json:ro
-    networks:
-      - my_network
-
-networks:
-  my_network:
-    driver: bridge
 
 volumes:
   pgdata:

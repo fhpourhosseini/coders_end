@@ -1,11 +1,35 @@
 import streamlit as st
 import pandas as pd
 import requests
-import db_helpers as db
 import time
 
-API_BASE_URL = "http://api-container:8000"
-def show_dashboard(conn, username):
+API_BASE_URL = "http://fastapi-container:8000"
+
+def fetch_results_from_api(username: str, bundesland: str = None) -> pd.DataFrame:
+    """Holt die Ergebnisse für einen User (optional gefiltert nach Bundesland) von der FastAPI."""
+    params = {}
+    if bundesland:
+        params["bundesland"] = bundesland
+
+    resp = requests.get(f"{API_BASE_URL}/ergebnisse/{username}", params=params, timeout=10)
+    resp.raise_for_status()
+    data = resp.json()
+
+    if not data:
+        return pd.DataFrame()
+
+    df = pd.DataFrame(data)
+
+    # Falls die Spalten für die Anzeige noch nicht in der API-Antwort aufbereitet sind, hier erzeugen:
+    if "waldbrand_ja_nein" not in df.columns and "wahrscheinlichkeit_prozent" in df.columns:
+        df["waldbrand_ja_nein"] = df["wahrscheinlichkeit_prozent"].apply(lambda x: "Ja" if x >= 50 else "Nein")
+    if "wahrscheinlichkeit_anzeige" not in df.columns and "wahrscheinlichkeit_prozent" in df.columns:
+        df["wahrscheinlichkeit_anzeige"] = df["wahrscheinlichkeit_prozent"].apply(lambda x: f"{x} %")
+
+    return df
+
+
+def show_dashboard(username: str):
     # 1. Session States für die Ansichtssteuerung initialisieren
     if "aktuelle_ansicht" not in st.session_state:
         st.session_state["aktuelle_ansicht"] = "wetter"
@@ -20,6 +44,8 @@ def show_dashboard(conn, username):
         if st.button("Abmelden", type="secondary", use_container_width=True):
             st.session_state["logged_in"] = False
             st.session_state["username"] = ""
+            st.session_state["bereits_analysiert"] = None
+            st.session_state["ausgewaehltes_bundesland"] = None
             st.rerun()
         st.markdown("---")
 
@@ -32,7 +58,6 @@ def show_dashboard(conn, username):
     with col_links:
         st.subheader("Steuerung")
         
-        # Umschalter zwischen aktueller Analyse und Historie
         ansicht = st.radio(
             "Modus wählen:",
             options=["🔥 Aktuelle Analyse", "⏳ Meine Historie"],
@@ -41,7 +66,6 @@ def show_dashboard(conn, username):
         st.session_state["aktuelle_ansicht"] = "wetter" if ansicht == "🔥 Aktuelle Analyse" else "history"
         st.markdown("---")
 
-        # Bundesland-Auswahl nur anzeigen, wenn wir im Analyse-Modus sind
         if st.session_state["aktuelle_ansicht"] == "wetter":
             bundeslaender = [
                 "Wien", "Niederösterreich", "Oberösterreich", "Steiermark", 
@@ -58,13 +82,11 @@ def show_dashboard(conn, username):
             if auswahl:
                 st.session_state["ausgewaehltes_bundesland"] = auswahl
 
-                # Pipeline nur dann ausführen, wenn ein NEUES Bundesland gewählt wurde
                 if st.session_state["bereits_analysiert"] != auswahl:
                     fortschritt = st.progress(0, text="Sende Anfrage an Backend-API...")
                     
                     with st.status(f"Analyse für **{auswahl}** läuft...", expanded=True) as status:
                         try:
-                            # 1. Job über POST /start anstoßen
                             st.write("🚀 Starte KI-Pipeline im Backend...")
                             start_resp = requests.post(
                                 f"{API_BASE_URL}/start",
@@ -77,7 +99,6 @@ def show_dashboard(conn, username):
                             fortschritt.progress(30, text="Pipeline gestartet. Warte auf Ergebnisse...")
                             st.write("⏳ KI-Modell berechnet Waldbrandrisiko...")
 
-                            # 2. Polling über GET /status/{job_id}, bis status == "completed"
                             while True:
                                 status_resp = requests.get(f"{API_BASE_URL}/status/{job_id}", timeout=10)
                                 status_resp.raise_for_status()
@@ -106,7 +127,6 @@ def show_dashboard(conn, username):
     # ==========================================
     with col_rechts:
         
-        # Hilfsfunktion zur Darstellung der Daten (Tabelle oder Karte)
         def render_results_modular(df_data):
             if df_data.empty:
                 st.warning("Keine Daten für die Anzeige vorhanden.")
@@ -150,10 +170,10 @@ def show_dashboard(conn, username):
             if aktuelle_auswahl:
                 st.markdown(f"Ergebnisse für das Bundesland: **{aktuelle_auswahl}**")
                 try:
-                    df_ergebnisse = db.get_ai_results(conn, username, bundesland=aktuelle_auswahl)
+                    df_ergebnisse = fetch_results_from_api(username, bundesland=aktuelle_auswahl)
                     render_results_modular(df_ergebnisse)
                 except Exception as e:
-                    st.error(f"Fehler beim Laden der Ergebnisse: {e}")
+                    st.error(f"Fehler beim Laden der Ergebnisse über API: {e}")
             else:
                 st.info("Bitte wähle links ein Bundesland aus, um die KI-Waldbrandvorhersage zu starten.")
                 
@@ -165,7 +185,7 @@ def show_dashboard(conn, username):
             st.caption("Hier siehst du deine historischen Abfragen.")
             
             try:
-                df_historie = db.get_ai_results(conn, username, bundesland=None)
+                df_historie = fetch_results_from_api(username, bundesland=None)
                 render_results_modular(df_historie)
             except Exception as e:
-                st.error(f"Fehler beim Laden der Historie: {e}")
+                st.error(f"Fehler beim Laden der Historie über API: {e}")

@@ -1,0 +1,22 @@
+# Leichtgewichtiges Python-Basisimage
+FROM python:3.11-slim
+
+# Arbeitsverzeichnis im Container festlegen
+WORKDIR /app
+
+# Python-Logs direkt und ungepuffert in der Konsole ausgeben
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Abhängigkeiten kopieren und installieren
+COPY requirements.api.txt .
+RUN pip install --no-cache-dir -r requirements.api.txt
+
+# Projektdateien in den Container kopieren
+COPY . .
+
+# Port 8000 freigeben
+EXPOSE 8000
+
+# FastAPI-Server mit Uvicorn starten (WICHTIG: --host 0.0.0.0 für Docker-Netzwerk)
+CMD ["uvicorn", "FastAPI_in_pipeline_container:app", "--host", "0.0.0.0", "--port", "8000"]
