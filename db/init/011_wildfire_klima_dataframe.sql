@@ -40,8 +40,9 @@ SELECT
     w.objid AS serie_id,
     ROW_NUMBER() OVER ( PARTITION BY w.objid ORDER BY wsd.before_date ASC) AS serial_number,
     wsd.before_date AS obs_date,
-    w.longitude,
-    w.latitude,    
+    w.longitude AS fire_lon,
+    w.latitude AS fire_lat,   
+    st.altitude AS st_alt, 
     -- Weather observations from public.klima_data
     kd.tl_ii,
     kd.tlmax,
@@ -63,5 +64,9 @@ INNER JOIN
 LEFT JOIN 
     public.klima_data kd 
     ON wsd.station_id = kd.station 
-    AND wsd.before_date = kd.obs_date;
+    AND wsd.before_date = kd.obs_date
+LEFT JOIN 
+    public.klima_stations st
+    ON kd.station = st.station_id;
+
 COMMIT;
