@@ -146,7 +146,21 @@ def show_dashboard(username: str):
                 df_display.columns = [
                     "Bundesland", "Gemeinde", "Breitengrad (Lat)", "Längengrad (Lon)", "Waldbrand (Ja/Nein)", "KI-Wahrscheinlichkeit", "Zeitpunkt"
                 ]
-                st.dataframe(df_display, use_container_width=True)
+                def farbe_wahrscheinlichkeit(val):
+                    try:
+                        # Entfernt das "%" und wandelt den Text in eine Zahl um
+                        zahl = float(str(val).replace("%", "").strip())
+                        if zahl >= 70:
+                            return "color: #ff4b4b; font-weight: bold;"  # Rot
+                        elif zahl >= 50:
+                            return "color: #ffa500; font-weight: bold;"  # Orange
+                        else:
+                            return "color: #21c354; font-weight: bold;"  # Grün
+                    except ValueError:
+                        return ""
+
+                styled_df = df_display.style.map(farbe_wahrscheinlichkeit, subset=["KI-Wahrscheinlichkeit"])
+                st.dataframe(styled_df, use_container_width=True)                  
                 
             elif ansichts_modus == "🗺️ Interaktive Karte":
                 try:
