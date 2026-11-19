@@ -106,7 +106,7 @@ def get_ai_results(conn, username, bundesland=None):
         if not df.empty:
             # Leitet Ja/Nein automatisch aus der Prozentzahl ab (>= 50% -> Ja)
             df["waldbrand_ja_nein"] = df["wahrscheinlichkeit_prozent"].apply(
-                lambda x: "🔴 Ja" if x >= 50 else "🟢 Nein"
+                lambda x: "🟨🟧⬛ Ja" if x >= 50 else "🟦 Nein"
             )
             # Formatiert die Zahl schön als Prozent-Text (z. B. "78%")
             df["wahrscheinlichkeit_anzeige"] = df["wahrscheinlichkeit_prozent"].apply(lambda x: f"{x}%")
