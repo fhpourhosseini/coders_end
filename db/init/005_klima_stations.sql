@@ -264,7 +264,12 @@ VALUES
 (221, 'COMBINED', NULL, 'Stockerau', 'Niederösterreich', 'NOE', 48.409833, 16.190861, 210, '1997-06-01T00:00:00+00:00', '2100-12-31T00:00:00+00:00', true, true, true),
 (222, 'COMBINED', NULL, 'Wolkersdorf', 'Niederösterreich', 'NOE', 48.388056, 16.508889, 174, '2008-07-23T00:00:00+00:00', '2100-12-31T00:00:00+00:00', true, true, true),
 (278, 'COMBINED', NULL, 'Klausen-Leopoldsdorf', 'Niederösterreich', 'NOE', 48.08333, 16.02999, 367, '2007-12-01T00:00:00+00:00', '2100-12-31T00:00:00+00:00', true, true, true)
-ON CONFLICT (station_id) DO NOTHING;
+ON CONFLICT (station_id) DO UPDATE SET
+    type = EXCLUDED.type, group_id = EXCLUDED.group_id, name = EXCLUDED.name,state = EXCLUDED.state, bundesland_code = EXCLUDED.bundesland_code,
+lat = EXCLUDED.lat, lon = EXCLUDED.lon, altitude = EXCLUDED.altitude,
+valid_from = EXCLUDED.valid_from, valid_to = EXCLUDED.valid_to,
+has_sunshine = EXCLUDED.has_sunshine, has_global_radiation = EXCLUDED.has_global_radiation,
+is_active = EXCLUDED.is_active;
 
 -- Batch 3 (`INDIVIDUAL` Stations IDs 500–11506)
 --  228 INDIVIDUAL stations (starting at ID 500)
@@ -493,6 +498,4 @@ END $$;
 
 -- FollowUp
 -- Batch of the `INDIVIDUAL` stations (rows 166–220, IDs `5311`–`7601`)
-
-
 COMMIT;

@@ -144,7 +144,6 @@ valid_from = EXCLUDED.valid_from, valid_to = EXCLUDED.valid_to,
 has_sunshine = EXCLUDED.has_sunshine, has_global_radiation = EXCLUDED.has_global_radiation,
 is_active = EXCLUDED.is_active;
 
-
    -- Capture how many rows the INSERT just processed
     GET DIAGNOSTICS v_batch_count = ROW_COUNT;
 
@@ -157,7 +156,7 @@ is_active = EXCLUDED.is_active;
     FROM public.klima_stations;
 
     -- Print summary to the Messages tab
-    RAISE NOTICE '006.3_klima_stations-5.sql: Last batch processed: % rows | Table public.klima_stations total: % (% COMBINED, % INDIVIDUAL)', 
+    RAISE NOTICE '006.4_klima_stations-5.sql: Last batch processed: % rows | Table public.klima_stations total: % (% COMBINED, % INDIVIDUAL)', 
         v_batch_count, v_total_count, v_combined_count, v_individual_count;
 END $$;
 

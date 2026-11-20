@@ -211,7 +211,7 @@ ON CONFLICT (station_id) DO UPDATE SET
     FROM public.klima_stations;
 
     -- Print summary to the Messages tab
-    RAISE NOTICE '006.1_klima_stations-3.sql: Last batch processed: % rows | Table public.klima_stations total: % (% COMBINED, % INDIVIDUAL)', 
+    RAISE NOTICE '006.2_klima_stations-3.sql: Last batch processed: % rows | Table public.klima_stations total: % (% COMBINED, % INDIVIDUAL)', 
         v_batch_count, v_total_count, v_combined_count, v_individual_count;
 END $$;
 

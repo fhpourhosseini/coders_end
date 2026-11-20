@@ -2,14 +2,14 @@ BEGIN;
 -- GEMEINDEN 
 DO $$
 DECLARE
-    v_expected_count INT := 1560;
+    v_expected_count INT := 1560;  -- 1560
     v_total_count INT;
     v_missing_fields INT;
     v_orphan_states INT;
     v_duplicate_pairs INT;
     v_missing_expected INT;
 BEGIN
-    -- 1. Check total count (Expected: 25 unique municipalities from your CSV snippet)
+    -- Check total count
     SELECT COUNT(*) INTO v_total_count
     FROM public.gemeinde;
 
@@ -17,7 +17,7 @@ BEGIN
         RAISE EXCEPTION 'GEMEINDE LOAD ERROR: Expected % unique municipalities, but found %.', v_expected_count, v_total_count;
     END IF;
 
-    -- 2. Check for NULL or empty names / state codes
+    -- Check for NULL or empty names / bundesland_code
     SELECT COUNT(*) INTO v_missing_fields
     FROM public.gemeinde
     WHERE name IS NULL 
@@ -29,7 +29,7 @@ BEGIN
         RAISE EXCEPTION 'GEMEINDE LOAD ERROR: Found % rows with empty name or bundesland_code.', v_missing_fields;
     END IF;
 
-    -- 3. Check for orphaned bundesland_code references (if FK isn't strictly enforced)
+    -- Check for orphaned bundesland_code references (if FK isn't strictly enforced)
     SELECT COUNT(*) INTO v_orphan_states
     FROM public.gemeinde g
     LEFT JOIN public.bundesland b ON g.bundesland_code = b.code
