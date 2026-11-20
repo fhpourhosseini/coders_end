@@ -16,6 +16,16 @@ CREATE TABLE IF NOT EXISTS public.klima_stations (
     has_global_radiation BOOLEAN NULL,
     is_active BOOLEAN NULL
 );
+COMMIT;
+
+BEGIN;
+DO $$
+DECLARE
+    v_batch_count INT;
+    v_total_count INT;
+    v_combined_count INT;
+    v_individual_count INT;
+BEGIN
 -- POPULATE 349 stations
 -- Batch 1: All 116 COMBINED Stations (IDs 1–56)
 INSERT INTO public.klima_stations (
@@ -463,6 +473,23 @@ lat = EXCLUDED.lat, lon = EXCLUDED.lon, altitude = EXCLUDED.altitude,
 valid_from = EXCLUDED.valid_from, valid_to = EXCLUDED.valid_to,
 has_sunshine = EXCLUDED.has_sunshine, has_global_radiation = EXCLUDED.has_global_radiation,
 is_active = EXCLUDED.is_active;
+
+
+   -- Capture how many rows the INSERT just processed
+    GET DIAGNOSTICS v_batch_count = ROW_COUNT;
+
+    -- Query current totals in the table
+    SELECT 
+        COUNT(*),
+        COUNT(*) FILTER (WHERE type = 'COMBINED'),
+        COUNT(*) FILTER (WHERE type = 'INDIVIDUAL')
+    INTO v_total_count, v_combined_count, v_individual_count
+    FROM public.klima_stations;
+
+    -- Print summary to the Messages tab
+    RAISE NOTICE '005_klima_stations.sql: Last batch processed: % rows | Table public.klima_stations total: % (% COMBINED, % INDIVIDUAL)', 
+        v_batch_count, v_total_count, v_combined_count, v_individual_count;
+END $$;
 
 -- FollowUp
 -- Batch of the `INDIVIDUAL` stations (rows 166–220, IDs `5311`–`7601`)
