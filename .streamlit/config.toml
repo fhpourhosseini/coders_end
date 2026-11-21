@@ -1,0 +1,6 @@
+[theme]
+base = "dark"
+primaryColor = "#080968"    Akzentfarbe (Buttons, Slider)
+backgroundColor = "#0E1117"           # Haupthintergrund
+secondaryBackgroundColor = "#262730"  # Sidebar & Input-Boxen
+textColor = "#FAFAFA"                 # Schriftfarbe
