@@ -171,7 +171,7 @@ def render_styled_table(df_display: pd.DataFrame):
         </div>
 
         <script>
-        document.addEventListener("DOMContentLoaded", function() {{
+           document.addEventListener("DOMContentLoaded", function() {{
             const table = document.querySelector("table");
             if (!table) return;
 
@@ -180,12 +180,15 @@ def render_styled_table(df_display: pd.DataFrame):
             let currentSortCol = -1;
             let currentSortDir = "asc";
 
-            // Chevrons zu allen Spaltenüberschriften hinzufügen
+            // Chevrons & Standard-Tooltips zu allen Spaltenüberschriften hinzufügen
             headers.forEach((th, index) => {{
                 const span = document.createElement("span");
                 span.className = "sort-chevron";
                 span.textContent = "⇅";
                 th.appendChild(span);
+
+                // Standard-Tooltip vor dem ersten Klick
+                th.title = "Nicht sortiert – Klicken zum aufsteigenden Sortieren";
 
                 th.addEventListener("click", () => {{
                     // Richtung umschalten
@@ -196,15 +199,24 @@ def render_styled_table(df_display: pd.DataFrame):
                         currentSortDir = "asc";
                     }}
 
-                    // Alle Chevrons zurücksetzen
+                    // Alle Chevrons und Tooltips zurücksetzen
                     headers.forEach(h => {{
                         h.classList.remove("sort-asc", "sort-desc");
                         h.querySelector(".sort-chevron").textContent = "⇅";
+                        h.title = "Nicht sortiert – Klicken zum aufsteigenden Sortieren";
                     }});
 
-                    // Aktiven Chevron setzen
-                    th.classList.add(currentSortDir === "asc" ? "sort-asc" : "sort-desc");
-                    th.querySelector(".sort-chevron").textContent = currentSortDir === "asc" ? "▲" : "▼";
+                    // Aktiven Chevron & passenden Tooltip setzen
+                    const chevron = th.querySelector(".sort-chevron");
+                    if (currentSortDir === "asc") {{
+                        th.classList.add("sort-asc");
+                        chevron.textContent = "▲";
+                        th.title = "Sortierung: Aufsteigend (Klicken für Absteigend)";
+                    }} else {{
+                        th.classList.add("sort-desc");
+                        chevron.textContent = "▼";
+                        th.title = "Sortierung: Absteigend (Klicken für Aufsteigend)";
+                    }}
 
                     // Zeilen sortieren
                     const rows = Array.from(tbody.querySelectorAll("tr"));
@@ -212,18 +224,15 @@ def render_styled_table(df_display: pd.DataFrame):
                         let valA = rowA.children[index].innerText.trim();
                         let valB = rowB.children[index].innerText.trim();
 
-                        // Prozentwerte und Zahlen erkennen (z.B. "75 %" -> 75)
                         const numA = parseFloat(valA.replace("%", "").replace(",", "."));
                         const numB = parseFloat(valB.replace("%", "").replace(",", "."));
 
-                        // Prüfen, ob reiner Zahlen-/Prozentwert vorliegt (keine Buchstaben wie bei Datum/Text)
                         const isPureNumber = /^[+-]?\\d+([.,]\\d+)?\\s*%?$/.test(valA) && /^[+-]?\\d+([.,]\\d+)?\\s*%?$/.test(valB);
 
                         let comparison = 0;
                         if (isPureNumber && !isNaN(numA) && !isNaN(numB)) {{
                             comparison = numA - numB;
                         }} else {{
-                            // Alphabetischer Vergleich inkl. deutscher Umlaute (Ä, Ö, Ü)
                             comparison = valA.localeCompare(valB, "de", {{ sensitivity: "base" }});
                         }}
 
@@ -235,7 +244,7 @@ def render_styled_table(df_display: pd.DataFrame):
                 }});
             }});
         }});
-        </script>
+        </script>        
     </body>
     </html>
     """
