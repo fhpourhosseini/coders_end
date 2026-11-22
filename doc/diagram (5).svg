@@ -1,0 +1,198 @@
+<svg class="light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 835.6 446" width="835.6" height="446" id="mcb6c80__root" data-diagram-type="ascii">
+  <style data-mercat-style="universal">.mercat text{font-family:'Google Sans',Roboto,Arial,sans-serif;fill:var(--m-text);dominant-baseline:central}.mercat .m-node .m-shape{fill:var(--m-node-fill);stroke:var(--m-node-stroke);stroke-width:1.5px}.mercat .m-edge .m-path{fill:none;stroke:var(--m-line);stroke-width:1.5px}.mercat .m-note .m-shape{fill:var(--m-note-fill);stroke:var(--m-note-stroke);stroke-width:1px}.mercat .m-note .m-label{fill:var(--m-note-text)}.mercat .t-label{font-size:13px;font-weight:500}</style>
+  <style data-mercat-style="theme-light">#mcb6c80__root{--m-bg:#ffffff;--m-text:#1f1f1f;--m-line:#545454;--m-node-fill:#f8f9fa;--m-node-stroke:#747775;--m-note-fill:#fef9e7;--m-note-stroke:#f39c12;--m-note-text:#1f1f1f}</style>
+  <style data-mercat-style="theme-dark">#mcb6c80__root.dark{--m-bg:#1f1f1f;--m-text:#e3e3e3;--m-line:#bfbfbf;--m-node-fill:#2d2e30;--m-node-stroke:#8e918f;--m-note-fill:#69550d;--m-note-stroke:#f39c12;--m-note-text:#e3e3e3}</style>
+  <style data-mercat-style="type">#mcb6c80__root .rect-pill{fill:var(--m-bg);stroke:var(--m-node-stroke);stroke-width:1.5px}#mcb6c80__root .label-text{fill:var(--m-text);font-size:13px;font-weight:500;white-space:pre}#mcb6c80__root .arrow-line,#mcb6c80__root .bus-line{fill:none;stroke:var(--m-line);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round}#mcb6c80__root .annotation-text{fill:var(--m-text);font-size:12px;font-weight:500;white-space:pre}</style>
+  <style data-mercat-style="diagram">#mcb6c80__root text{font-family:Google Sans Mono, Roboto Mono, monospace}</style>
+  <g class="mercat mercat-ascii">
+    <defs>
+      <marker id="mcb6c80__mk-arrow" refX="9.45" refY="3.4" markerWidth="10.8" markerHeight="6.8" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M 0 0 L 10.8 3.4 L 0 6.8 Z" class="m-marker" fill="var(--m-line)" stroke="none"/>
+      </marker>
+    </defs>
+    <g class="m-node shape inner" id="mcb6c80__node__n0" data-role="step">
+      <rect x="167.2" y="59" width="35.6" height="20" rx="3" ry="3" class="m-shape rect-pill"/>
+      <text x="185" y="69" class="m-label t-label label-text" text-anchor="middle">10</text>
+    </g>
+    <g class="m-node shape inner" id="mcb6c80__node__n1" data-role="step">
+      <rect x="660.2" y="59" width="35.6" height="20" rx="3" ry="3" class="m-shape rect-pill"/>
+      <text x="678" y="69" class="m-label t-label label-text" text-anchor="middle">75</text>
+    </g>
+    <g class="m-node shape inner" id="mcb6c80__node__n2" data-role="step">
+      <rect x="17" y="81" width="361.5" height="20" rx="3" ry="3" class="m-shape rect-pill"/>
+      <text x="197.75" y="91" class="m-label t-label label-text" text-anchor="middle">BLOCKED (Days -4 to 24)</text>
+    </g>
+    <g class="m-node shape inner" id="mcb6c80__node__n3" data-role="step">
+      <rect x="382.5" y="235" width="234" height="20" rx="3" ry="3" class="m-shape rect-pill"/>
+      <text x="499.5" y="245" class="m-label t-label label-text" text-anchor="middle">T_alt - 14  to  T_alt + 14</text>
+    </g>
+    <g class="m-node shape inner" id="mcb6c80__node__n4" data-role="step">
+      <rect x="312.75" y="279" width="59" height="20" rx="3" ry="3" class="m-shape rect-pill"/>
+      <text x="342.25" y="289" class="m-label t-label label-text" text-anchor="middle">T_alt</text>
+    </g>
+    <g class="m-node shape inner" id="mcb6c80__node__n5" data-role="step">
+      <rect x="161.5" y="301" width="395.5" height="20" rx="3" ry="3" class="m-shape rect-pill"/>
+      <text x="359.25" y="311" class="m-label t-label label-text" text-anchor="middle">29-Day Footprint (Days 25 to 53)</text>
+    </g>
+    <g class="m-node shape inner" id="mcb6c80__node__n6" data-role="step">
+      <rect x="357" y="411" width="208.5" height="20" rx="3" ry="3" class="m-shape rect-pill"/>
+      <text x="461.25" y="421" class="m-label t-label label-text" text-anchor="middle">T_alt - 14 to T_alt - 1</text>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n2__pt__0" data-role="connector">
+      <line x1="49" y1="69" x2="24.85" y2="69" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n2__n0__0" data-role="connector">
+      <line x1="134" y1="69" x2="158.15" y2="69" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n2__n0__1" data-role="connector">
+      <line x1="236" y1="69" x2="204.15" y2="69" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n2__pt__1" data-role="connector">
+      <line x1="346.5" y1="69" x2="370.65" y2="69" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__a4__pt__0" data-role="connector">
+      <line x1="542" y1="69" x2="517.85" y2="69" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__a4__n1__0" data-role="connector">
+      <line x1="627" y1="69" x2="651.15" y2="69" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__pt__a6__0" data-role="connector">
+      <line x1="520.75" y1="88.5" x2="537.75" y2="88.5" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__pt__a6__1" data-role="connector">
+      <line x1="520.75" y1="93.5" x2="537.75" y2="93.5" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__a7__pt__0" data-role="connector">
+      <line x1="414.5" y1="157" x2="381.85" y2="157" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__a7__pt__1" data-role="connector">
+      <line x1="482.5" y1="157" x2="506.65" y2="157" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n5__pt__0" data-role="connector">
+      <line x1="193.5" y1="289" x2="169.35" y2="289" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n5__n4__0" data-role="connector">
+      <line x1="278.5" y1="289" x2="302.65" y2="289" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n5__n4__1" data-role="connector">
+      <line x1="406" y1="289" x2="373.1" y2="289" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n5__pt__1" data-role="connector">
+      <line x1="516.5" y1="289" x2="540.65" y2="289" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__a15__n5__0" data-role="connector">
+      <line x1="601.5" y1="311" x2="558.35" y2="311" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__a16__pt__0" data-role="connector">
+      <line x1="185" y1="377" x2="169.35" y2="377" class="m-path arrow-line" marker-end="url(#mcb6c80__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__a17__a18__0" data-role="connector">
+      <line x1="248.75" y1="399" x2="257.25" y2="399" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__pt__n2__0" data-role="connector">
+      <line x1="19.25" y1="58" x2="19.25" y2="80" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n0__n2__0" data-role="connector">
+      <line x1="163.75" y1="58" x2="163.75" y2="80" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__pt__n5__0" data-role="connector">
+      <line x1="163.75" y1="278" x2="163.75" y2="300" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n5__pt__2" data-role="connector">
+      <line x1="163.75" y1="321" x2="163.75" y2="377" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n0__n2__1" data-role="connector">
+      <line x1="206.25" y1="58" x2="206.25" y2="80" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n4__n5__0" data-role="connector">
+      <line x1="308.25" y1="278" x2="308.25" y2="300" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n5__a16__0" data-role="connector">
+      <line x1="308.25" y1="321" x2="308.25" y2="377" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__pt__n2__1" data-role="connector">
+      <line x1="376.25" y1="58" x2="376.25" y2="80" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n2__pt__2" data-role="connector">
+      <line x1="376.25" y1="101" x2="376.25" y2="157" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n4__n5__1" data-role="connector">
+      <line x1="376.25" y1="278" x2="376.25" y2="300" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__pt__pt__0" data-role="connector">
+      <line x1="512.25" y1="58" x2="512.25" y2="80" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__pt__a8__0" data-role="connector">
+      <line x1="512.25" y1="135" x2="512.25" y2="157" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__pt__n5__1" data-role="connector">
+      <line x1="546.25" y1="278" x2="546.25" y2="300" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n1__a6__0" data-role="connector">
+      <line x1="656.75" y1="58" x2="656.75" y2="80" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="mcb6c80__edge__n1__a6__1" data-role="connector">
+      <line x1="699.25" y1="58" x2="699.25" y2="80" class="m-path bus-line"/>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a0" data-role="annotation">
+      <text x="15" y="25" class="m-label t-label annotation-text" text-anchor="start">Existing Event A (Day 10)</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a1" data-role="annotation">
+      <text x="508" y="25" class="m-label t-label annotation-text" text-anchor="start">Existing Event B (Day 75)</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a2" data-role="annotation">
+      <text x="49" y="69" class="m-label t-label annotation-text" text-anchor="start">14d Set-up</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a3" data-role="annotation">
+      <text x="236" y="69" class="m-label t-label annotation-text" text-anchor="start">14d Dismantle</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a4" data-role="annotation">
+      <text x="542" y="69" class="m-label t-label annotation-text" text-anchor="start">14d Set-up</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a5" data-role="annotation">
+      <text x="703.5" y="69" class="m-label t-label annotation-text" text-anchor="start">...</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a6" data-role="annotation">
+      <text x="550.5" y="91" class="m-label t-label annotation-text" text-anchor="start">BLOCKED (Days 61 to 89)</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a7" data-role="annotation">
+      <text x="423" y="157" class="m-label t-label annotation-text" text-anchor="start">36-Day</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a8" data-role="annotation">
+      <text x="525" y="157" class="m-label t-label annotation-text" text-anchor="start">(Open Gap: Days 25 to 60)</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a9" data-role="annotation">
+      <text x="414.5" y="179" class="m-label t-label annotation-text" text-anchor="start">Window</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a10" data-role="annotation">
+      <text x="15" y="223" class="m-label t-label annotation-text" text-anchor="start">Can Alternative Event (T_alt) fit inside the 36-Day Open Gap?</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a11" data-role="annotation">
+      <text x="15" y="245" class="m-label t-label annotation-text" text-anchor="start">Requirement: Needs 29 contiguous free days</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a12" data-role="annotation">
+      <text x="621.5" y="245" class="m-label t-label annotation-text" text-anchor="start">.</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a13" data-role="annotation">
+      <text x="193.5" y="289" class="m-label t-label annotation-text" text-anchor="start">14d Set-up</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a14" data-role="annotation">
+      <text x="406" y="289" class="m-label t-label annotation-text" text-anchor="start">14d Dismantle</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a15" data-role="annotation">
+      <text x="610" y="311" class="m-label t-label annotation-text" text-anchor="start">VALID! (Fits inside 25..60)</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a16" data-role="annotation">
+      <text x="193.5" y="377" class="m-label t-label annotation-text" text-anchor="start">Supply Check&gt;</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a17" data-role="annotation">
+      <text x="159.5" y="399" class="m-label t-label annotation-text" text-anchor="start">Must have</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a18" data-role="annotation">
+      <text x="270" y="399" class="m-label t-label annotation-text" text-anchor="start">1 active shop in Municipality M</text>
+    </g>
+    <g class="m-node m-note" id="mcb6c80__note__a19" data-role="annotation">
+      <text x="159.5" y="421" class="m-label t-label annotation-text" text-anchor="start">on EVERY single day of</text>
+    </g>
+  </g>
+</svg>

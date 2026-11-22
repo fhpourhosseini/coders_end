@@ -1,0 +1,84 @@
+<svg class="light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 718.5 954" width="718.5" height="954" id="mbf948e__root" data-diagram-type="ascii">
+  <style data-mercat-style="universal">.mercat text{font-family:'Google Sans',Roboto,Arial,sans-serif;fill:var(--m-text);dominant-baseline:central}.mercat .m-node .m-shape{fill:var(--m-node-fill);stroke:var(--m-node-stroke);stroke-width:1.5px}.mercat .m-edge .m-path{fill:none;stroke:var(--m-line);stroke-width:1.5px}.mercat .m-note .m-shape{fill:var(--m-note-fill);stroke:var(--m-note-stroke);stroke-width:1px}.mercat .m-note .m-label{fill:var(--m-note-text)}.mercat .t-heading{font-size:14px;font-weight:600}.mercat .t-label{font-size:13px;font-weight:500}</style>
+  <style data-mercat-style="theme-light">#mbf948e__root{--m-bg:#ffffff;--m-text:#1f1f1f;--m-line:#545454;--m-node-fill:#f8f9fa;--m-node-stroke:#747775;--m-note-fill:#fef9e7;--m-note-stroke:#f39c12;--m-note-text:#1f1f1f}</style>
+  <style data-mercat-style="theme-dark">#mbf948e__root.dark{--m-bg:#1f1f1f;--m-text:#e3e3e3;--m-line:#bfbfbf;--m-node-fill:#2d2e30;--m-node-stroke:#8e918f;--m-note-fill:#69550d;--m-note-stroke:#f39c12;--m-note-text:#e3e3e3}</style>
+  <style data-mercat-style="type">#mbf948e__root .outer-box{fill:var(--m-text);stroke:var(--m-node-stroke);stroke-width:1.75px;fill-opacity:0.06}#mbf948e__root .rect-pill{fill:var(--m-bg);stroke:var(--m-node-stroke);stroke-width:1.5px}#mbf948e__root .header-text{fill:var(--m-text);font-size:14px;font-weight:600;white-space:pre}#mbf948e__root .label-text{fill:var(--m-text);font-size:13px;font-weight:500;white-space:pre}#mbf948e__root .arrow-line{fill:none;stroke:var(--m-line);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round}#mbf948e__root .divider-line{fill:none;stroke:var(--m-node-stroke);stroke-width:1px;stroke-opacity:0.75}#mbf948e__root .annotation-text{fill:var(--m-text);font-size:12px;font-weight:500;white-space:pre}</style>
+  <style data-mercat-style="diagram">#mbf948e__root text{font-family:Google Sans Mono, Roboto Mono, monospace}</style>
+  <g class="mercat mercat-ascii">
+    <defs>
+      <marker id="mbf948e__mk-arrow" refX="9.45" refY="3.4" markerWidth="10.8" markerHeight="6.8" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M 0 0 L 10.8 3.4 L 0 6.8 Z" class="m-marker" fill="var(--m-line)" stroke="none"/>
+      </marker>
+    </defs>
+    <g class="m-node shape outer cluster" id="mbf948e__node__n0" data-role="step">
+      <rect x="15" y="15" width="314.5" height="220" class="m-shape outer-box"/>
+      <line x1="15" y1="81" x2="329.5" y2="81" class="m-path divider-line"/>
+      <text x="168" y="48" class="m-label t-heading header-text" text-anchor="middle">EVENTS TABLE</text>
+      <text x="168" y="114" class="m-label t-label label-text" text-anchor="middle">* Event_ID (PK)</text>
+      <text x="168" y="136" class="m-label t-label label-text" text-anchor="middle">* Event_Date</text>
+      <text x="168" y="158" class="m-label t-label label-text" text-anchor="middle">* Municipality</text>
+      <text x="168" y="180" class="m-label t-label label-text" text-anchor="middle">* Geo_Coords (Lat, Lon)</text>
+      <text x="168" y="202" class="m-label t-label label-text" text-anchor="middle">* [Daily Item Quantities 1..10]</text>
+    </g>
+    <g class="m-node shape outer cluster" id="mbf948e__node__n1" data-role="step">
+      <rect x="15" y="367" width="314.5" height="198" class="m-shape outer-box"/>
+      <line x1="15" y1="433" x2="329.5" y2="433" class="m-path divider-line"/>
+      <text x="168" y="400" class="m-label t-heading header-text" text-anchor="middle">EXPANDED EVENT TIMELINE</text>
+      <text x="168" y="466" class="m-label t-label label-text" text-anchor="middle">* Event_ID (FK)</text>
+      <text x="168" y="488" class="m-label t-label label-text" text-anchor="middle">* Prep_Date</text>
+      <text x="168" y="510" class="m-label t-label label-text" text-anchor="middle">* Municipality</text>
+      <text x="168" y="532" class="m-label t-label label-text" text-anchor="middle">* Geo_Coords</text>
+    </g>
+    <g class="m-node shape outer cluster" id="mbf948e__node__n2" data-role="step">
+      <rect x="389" y="367" width="314.5" height="220" class="m-shape outer-box"/>
+      <line x1="389" y1="433" x2="703.5" y2="433" class="m-path divider-line"/>
+      <text x="542" y="400" class="m-label t-heading header-text" text-anchor="middle">SHOPS TABLE</text>
+      <text x="542" y="466" class="m-label t-label label-text" text-anchor="middle">* Shop_ID (PK)</text>
+      <text x="542" y="488" class="m-label t-label label-text" text-anchor="middle">* Start_Date</text>
+      <text x="542" y="510" class="m-label t-label label-text" text-anchor="middle">* End_Date (or future date)</text>
+      <text x="542" y="532" class="m-label t-label label-text" text-anchor="middle">* Municipality</text>
+      <text x="542" y="554" class="m-label t-label label-text" text-anchor="middle">* Geo_Coords</text>
+    </g>
+    <g class="m-node shape outer cluster" id="mbf948e__node__n3" data-role="step">
+      <rect x="185" y="719" width="340" height="220" class="m-shape outer-box"/>
+      <line x1="185" y1="785" x2="525" y2="785" class="m-path divider-line"/>
+      <text x="350.75" y="752" class="m-label t-heading header-text" text-anchor="middle">EVENT_SHOP_BRIDGE (OUTPUT)</text>
+      <text x="350.75" y="818" class="m-label t-label label-text" text-anchor="middle">* Event_ID</text>
+      <text x="350.75" y="840" class="m-label t-label label-text" text-anchor="middle">* Prep_Date (Day 1 to 14)</text>
+      <text x="350.75" y="862" class="m-label t-label label-text" text-anchor="middle">* Shop_ID</text>
+      <text x="350.75" y="884" class="m-label t-label label-text" text-anchor="middle">* Distance_km</text>
+      <text x="350.75" y="906" class="m-label t-label label-text" text-anchor="middle">* Match_Rank (e.g., 1 = Closest)</text>
+    </g>
+    <g class="m-node shape inner" id="mbf948e__node__n4" data-role="step">
+      <rect x="289" y="324" width="319" height="20" rx="3" ry="3" class="m-shape rect-pill"/>
+      <text x="448.5" y="334" class="m-label t-label label-text" text-anchor="middle">Event_Date - 14d ... Event_Date - 1d</text>
+    </g>
+    <g class="m-edge" id="mbf948e__edge__pt__n3__0" data-role="connector">
+      <line x1="163.75" y1="587" x2="205.84" y2="717.71" class="m-path arrow-line" marker-end="url(#mbf948e__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mbf948e__edge__pt__n3__1" data-role="connector">
+      <line x1="537.75" y1="609" x2="504.15" y2="717.71" class="m-path arrow-line" marker-end="url(#mbf948e__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="mbf948e__edge__n0__n1__0" data-role="connector">
+      <line x1="172.25" y1="235" x2="172.25" y2="365.65" class="m-path arrow-line" marker-end="url(#mbf948e__mk-arrow)"/>
+    </g>
+    <g class="m-node m-note" id="mbf948e__note__a0" data-role="annotation">
+      <text x="185" y="290" class="m-label t-label annotation-text" text-anchor="start">STEP 1: Date Expansion (Explode)</text>
+    </g>
+    <g class="m-node m-note" id="mbf948e__note__a1" data-role="annotation">
+      <text x="185" y="312" class="m-label t-label annotation-text" text-anchor="start">Generate 14 rows per Event:</text>
+    </g>
+    <g class="m-node m-note" id="mbf948e__note__a2" data-role="annotation">
+      <text x="185" y="334" class="m-label t-label annotation-text" text-anchor="start">Prep_Date =</text>
+    </g>
+    <g class="m-node m-note" id="mbf948e__note__a3" data-role="annotation">
+      <text x="219" y="642" class="m-label t-label annotation-text" text-anchor="start">STEP 2: Spatio-Temporal Join</text>
+    </g>
+    <g class="m-node m-note" id="mbf948e__note__a4" data-role="annotation">
+      <text x="219" y="664" class="m-label t-label annotation-text" text-anchor="start">- Prep_Date BETWEEN Start &amp; End</text>
+    </g>
+    <g class="m-node m-note" id="mbf948e__note__a5" data-role="annotation">
+      <text x="219" y="686" class="m-label t-label annotation-text" text-anchor="start">- Location Match (Muni / Radius)</text>
+    </g>
+  </g>
+</svg>

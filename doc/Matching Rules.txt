@@ -1,0 +1,44 @@
+To match a station to an wildfire's preparation phase, a station must pass three filters:
+1. The Preparation Window (wildfire Time):
+For any wildfire on date T, preparation happen in the window \([T - 14\text{ days}, T]\).
+2. Operational Validity (station Time):
+A station can only supply parameters on delivery date D if:
+{station\_Start\_Date}<=D<={station\_End\_Date}
+(This automatically filters out stations that hadn't opened yet or had already closed during the 2-week prep).
+3. Spatial Matching (Geography):
+The station must be capable of delivering parameters on the wildfire's location. 
+Depending on how strict your real-world rules are, you have three options below.
+
+a strategy to decide which stations get matched to the wildfires
+
+Radius / Nearest Neighbor (Geo-Coords)
+Calculate the Haversine distance between Wildfire.Coords and Station.Coords. 
+Match the closest station, or all stations within X km.	Logistics are driven by driving/straight-line distance rather than city names.
+
+
+Tiered Scoring 
+Assign a confidence score: 
+1. Same Municipality AND < 10 km (High)
+2. Different Municipality AND < 10 km (Medium)
+3. Same Municipality AND > 10 km (Low)	
+By messy data (e.g., misspelled municipality names) or want a fallback when no local shop exists.
+
+Because a station might open or close in the middle of an event's 2-week preparation window, 
+we expand each wildfire event into 14 daily rows first, then match those days to active stations
+
+
+Step-by-Step Execution Logic
+
+1. Generate the Calendar Spine: 
+Create a sequence of offsets from -14 to -1 (or -13 to 0 if the event day counts as day 14). 
+Cross-join this with wildfires table so every Event_ID now has 14 Prep_Date records.
+
+2. Apply the Temporal Filter: Join the expanded wildfires table to the stations table 
+where Prep_Date >= Station.Start_Date AND Prep_Date <= Station.End_Date.
+3. Apply the Spatial Filter: Filter the joined pairs using your chosen location rule:
+	• Strict: Event.Municipality = Station.Municipality
+	• Proximity: Haversine_Distance(Wildfire.Coords and Station.Coords) <= Max_Radius_km
+4. Resolve Multiple Matches (Deduplication/Allocation):
+	• For one station per day, rank the matched shops by Distance_km ASC for each (Event_ID, Prep_Date) and keep Rank = 1.
+	• For all eligible shops, keep all rows in the wf_Station_BRIDGE table and divide the daily 10 parameters across the matched stations
+

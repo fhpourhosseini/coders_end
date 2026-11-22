@@ -1,0 +1,122 @@
+<svg class="light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660.1 1042" width="660.1" height="1042" id="ma9ef95__root" data-diagram-type="ascii">
+  <style data-mercat-style="universal">.mercat text{font-family:'Google Sans',Roboto,Arial,sans-serif;fill:var(--m-text);dominant-baseline:central}.mercat .m-node .m-shape{fill:var(--m-node-fill);stroke:var(--m-node-stroke);stroke-width:1.5px}.mercat .m-edge .m-path{fill:none;stroke:var(--m-line);stroke-width:1.5px}.mercat .m-note .m-shape{fill:var(--m-note-fill);stroke:var(--m-note-stroke);stroke-width:1px}.mercat .m-note .m-label{fill:var(--m-note-text)}.mercat .t-heading{font-size:14px;font-weight:600}.mercat .t-label{font-size:13px;font-weight:500}</style>
+  <style data-mercat-style="theme-light">#ma9ef95__root{--m-bg:#ffffff;--m-text:#1f1f1f;--m-line:#545454;--m-node-fill:#f8f9fa;--m-node-stroke:#747775;--m-note-fill:#fef9e7;--m-note-stroke:#f39c12;--m-note-text:#1f1f1f}</style>
+  <style data-mercat-style="theme-dark">#ma9ef95__root.dark{--m-bg:#1f1f1f;--m-text:#e3e3e3;--m-line:#bfbfbf;--m-node-fill:#2d2e30;--m-node-stroke:#8e918f;--m-note-fill:#69550d;--m-note-stroke:#f39c12;--m-note-text:#e3e3e3}</style>
+  <style data-mercat-style="type">#ma9ef95__root .outer-box{fill:var(--m-text);stroke:var(--m-node-stroke);stroke-width:1.75px;fill-opacity:0.06}#ma9ef95__root .rect-pill{fill:var(--m-bg);stroke:var(--m-node-stroke);stroke-width:1.5px}#ma9ef95__root .header-text{fill:var(--m-text);font-size:14px;font-weight:600;white-space:pre}#ma9ef95__root .label-text{fill:var(--m-text);font-size:13px;font-weight:500;white-space:pre}#ma9ef95__root .arrow-line,#ma9ef95__root .bus-line{fill:none;stroke:var(--m-line);stroke-width:1.5px;stroke-linecap:round;stroke-linejoin:round}#ma9ef95__root .divider-line{fill:none;stroke:var(--m-node-stroke);stroke-width:1px;stroke-opacity:0.75}#ma9ef95__root .annotation-text{fill:var(--m-text);font-size:12px;font-weight:500;white-space:pre}</style>
+  <style data-mercat-style="diagram">#ma9ef95__root text{font-family:Google Sans Mono, Roboto Mono, monospace}</style>
+  <g class="mercat mercat-ascii">
+    <defs>
+      <marker id="ma9ef95__mk-arrow" refX="9.45" refY="3.4" markerWidth="10.8" markerHeight="6.8" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+        <path d="M 0 0 L 10.8 3.4 L 0 6.8 Z" class="m-marker" fill="var(--m-line)" stroke="none"/>
+      </marker>
+    </defs>
+    <g class="m-node shape outer cluster" id="ma9ef95__node__n0" data-role="step">
+      <rect x="15" y="15" width="246.5" height="154" class="m-shape outer-box"/>
+      <line x1="15" y1="81" x2="261.5" y2="81" class="m-path divider-line"/>
+      <text x="134" y="48" class="m-label t-heading header-text" text-anchor="middle">MASTER CALENDAR</text>
+      <text x="134" y="114" class="m-label t-label label-text" text-anchor="middle">* Candidate_Date</text>
+      <text x="134" y="136" class="m-label t-label label-text" text-anchor="middle">* Municipality</text>
+    </g>
+    <g class="m-node shape outer cluster" id="ma9ef95__node__n1" data-role="step">
+      <rect x="321" y="15" width="246.5" height="176" class="m-shape outer-box"/>
+      <line x1="321" y1="81" x2="567.5" y2="81" class="m-path divider-line"/>
+      <text x="440" y="48" class="m-label t-heading header-text" text-anchor="middle">EXISTING EVENTS</text>
+      <text x="440" y="114" class="m-label t-label label-text" text-anchor="middle">* Event_ID</text>
+      <text x="440" y="136" class="m-label t-label label-text" text-anchor="middle">* Event_Date (T)</text>
+      <text x="440" y="158" class="m-label t-label label-text" text-anchor="middle">* Municipality</text>
+    </g>
+    <g class="m-node shape outer cluster" id="ma9ef95__node__n2" data-role="step">
+      <rect x="15" y="345" width="246.5" height="88" class="m-shape outer-box"/>
+      <text x="134" y="389" class="m-label t-heading header-text" text-anchor="middle">FREE VENUE DATES</text>
+    </g>
+    <g class="m-node shape outer cluster" id="ma9ef95__node__n3" data-role="step">
+      <rect x="15" y="543" width="246.5" height="154" class="m-shape outer-box"/>
+      <line x1="15" y1="609" x2="261.5" y2="609" class="m-path divider-line"/>
+      <text x="134" y="576" class="m-label t-heading header-text" text-anchor="middle">VALID EVENT DATES</text>
+      <text x="134" y="642" class="m-label t-label label-text" text-anchor="middle">* T_alt (Feasible Date)</text>
+      <text x="134" y="664" class="m-label t-label label-text" text-anchor="middle">* Municipality</text>
+    </g>
+    <g class="m-node shape outer cluster" id="ma9ef95__node__n4" data-role="step">
+      <rect x="321" y="543" width="246.5" height="176" class="m-shape outer-box"/>
+      <line x1="321" y1="609" x2="567.5" y2="609" class="m-path divider-line"/>
+      <text x="440" y="576" class="m-label t-heading header-text" text-anchor="middle">SHOPS TABLE</text>
+      <text x="440" y="642" class="m-label t-label label-text" text-anchor="middle">* Shop_ID</text>
+      <text x="440" y="664" class="m-label t-label label-text" text-anchor="middle">* Start_Date / End_Date</text>
+      <text x="440" y="686" class="m-label t-label label-text" text-anchor="middle">* Municipality / Coords</text>
+    </g>
+    <g class="m-node shape outer cluster" id="ma9ef95__node__n5" data-role="step">
+      <rect x="100" y="851" width="297.5" height="176" class="m-shape outer-box"/>
+      <line x1="100" y1="917" x2="397.5" y2="917" class="m-path divider-line"/>
+      <text x="117" y="884" class="m-label t-heading header-text" text-anchor="start">FEASIBLE ALTERNATIVE EVENTS</text>
+      <text x="117" y="950" class="m-label t-label label-text" text-anchor="start">* Municipality</text>
+      <text x="117" y="972" class="m-label t-label label-text" text-anchor="start">* Valid_Event_Date (T_alt)</text>
+      <text x="117" y="994" class="m-label t-label label-text" text-anchor="start">* Min_Active_Shops_In_Prep</text>
+    </g>
+    <g class="m-node shape inner" id="ma9ef95__node__n6" data-role="step">
+      <rect x="459" y="280" width="183" height="20" rx="3" ry="3" class="m-shape rect-pill"/>
+      <text x="550.5" y="290" class="m-label t-label label-text" text-anchor="middle">T - 14d  to  T + 14d</text>
+    </g>
+    <g class="m-node shape inner" id="ma9ef95__node__n7" data-role="step">
+      <rect x="170" y="500" width="242.5" height="20" rx="3" ry="3" class="m-shape rect-pill"/>
+      <text x="291.25" y="510" class="m-label t-label label-text" text-anchor="middle">T_alt - 14d ... T_alt + 14d</text>
+    </g>
+    <g class="m-node shape inner" id="ma9ef95__node__n8" data-role="step">
+      <rect x="238" y="786" width="208.5" height="20" rx="3" ry="3" class="m-shape rect-pill"/>
+      <text x="342.25" y="796" class="m-label t-label label-text" text-anchor="middle">T_alt - 14 .. T_alt - 1</text>
+    </g>
+    <g class="m-edge" id="ma9ef95__edge__pt__n5__0" data-role="connector">
+      <line x1="138.25" y1="719" x2="180.34" y2="849.71" class="m-path arrow-line" marker-end="url(#ma9ef95__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="ma9ef95__edge__pt__n8__0" data-role="connector">
+      <line x1="435.75" y1="741" x2="427.25" y2="785" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="ma9ef95__edge__pt__pt__0" data-role="connector">
+      <line x1="444.25" y1="312" x2="143.85" y2="312" class="m-path arrow-line" marker-end="url(#ma9ef95__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="ma9ef95__edge__n8__a10__0" data-role="connector">
+      <line x1="248.75" y1="818" x2="257.25" y2="818" class="m-path bus-line"/>
+    </g>
+    <g class="m-edge" id="ma9ef95__edge__n0__n2__0" data-role="connector">
+      <line x1="138.25" y1="169" x2="138.25" y2="343.65" class="m-path arrow-line" marker-end="url(#ma9ef95__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="ma9ef95__edge__n2__n3__0" data-role="connector">
+      <line x1="138.25" y1="433" x2="138.25" y2="541.65" class="m-path arrow-line" marker-end="url(#ma9ef95__mk-arrow)"/>
+    </g>
+    <g class="m-edge" id="ma9ef95__edge__n1__pt__0" data-role="connector">
+      <line x1="444.25" y1="191" x2="444.25" y2="312" class="m-path bus-line"/>
+    </g>
+    <g class="m-node m-note" id="ma9ef95__note__a0" data-role="annotation">
+      <text x="168" y="268" class="m-label t-label annotation-text" text-anchor="start">STEP 1: Blockout Filter</text>
+    </g>
+    <g class="m-node m-note" id="ma9ef95__note__a1" data-role="annotation">
+      <text x="457" y="268" class="m-label t-label annotation-text" text-anchor="start">Expand to Blocked Range:</text>
+    </g>
+    <g class="m-node m-note" id="ma9ef95__note__a2" data-role="annotation">
+      <text x="168" y="290" class="m-label t-label annotation-text" text-anchor="start">Exclude Candidate_Date if</text>
+    </g>
+    <g class="m-node m-note" id="ma9ef95__note__a3" data-role="annotation">
+      <text x="278.5" y="400" class="m-label t-label annotation-text" text-anchor="start">(Dates where a municipality is physically free)</text>
+    </g>
+    <g class="m-node m-note" id="ma9ef95__note__a4" data-role="annotation">
+      <text x="168" y="466" class="m-label t-label annotation-text" text-anchor="start">STEP 2: 29-Day Window Check (Self-Join / Rolling Window)</text>
+    </g>
+    <g class="m-node m-note" id="ma9ef95__note__a5" data-role="annotation">
+      <text x="168" y="488" class="m-label t-label annotation-text" text-anchor="start">Keep Candidate_Date (T_alt) ONLY IF all 29 days</text>
+    </g>
+    <g class="m-node m-note" id="ma9ef95__note__a6" data-role="annotation">
+      <text x="423" y="510" class="m-label t-label annotation-text" text-anchor="start">are in FREE VENUE DATES</text>
+    </g>
+    <g class="m-node m-note" id="ma9ef95__note__a7" data-role="annotation">
+      <text x="176.5" y="774" class="m-label t-label annotation-text" text-anchor="start">STEP 3: Prep Supply Check</text>
+    </g>
+    <g class="m-node m-note" id="ma9ef95__note__a8" data-role="annotation">
+      <text x="176.5" y="796" class="m-label t-label annotation-text" text-anchor="start">Expand</text>
+    </g>
+    <g class="m-node m-note" id="ma9ef95__note__a9" data-role="annotation">
+      <text x="185" y="818" class="m-label t-label annotation-text" text-anchor="start">Verify</text>
+    </g>
+    <g class="m-node m-note" id="ma9ef95__note__a10" data-role="annotation">
+      <text x="270" y="818" class="m-label t-label annotation-text" text-anchor="start">1 Active Shop per day</text>
+    </g>
+  </g>
+</svg>

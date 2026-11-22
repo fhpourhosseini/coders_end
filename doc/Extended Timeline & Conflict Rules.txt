@@ -1,0 +1,28 @@
+Extended Timeline & Conflict Rules
+
+An existing event of wildfire on date T locks down its municipality for a 29-day total footprint (assuming the event itself is 1 day):
+29=T-14 to T+14
+
+The Golden Rule for Placement:
+For an NO-event to happen on date T_alt in Municipality M, two conditions must be met:
+1. Zero Overlap (Location Availability): 
+The entire 29-day footprint of the new event [T_alt-14, T_alt+14] must have NO overlapping days with the 29-day footprint of any existing wildfire event in Municipality M. 
+(Mathematically, two events in the same municipality must be at least 29 days apart: !T_alt-T! >= 29.
+
+2. Station Supply Coverage (Resource Availability): 
+During the new event's 14-day preparation window  [T_alt-14, T_alt-1] , there must be at least one active station available (matching Time + Location rules) to deliver the 10 daily parameters.
+
+To compute this, we generate a master calendar of all possible (Municipality, Candidate_Date/control dates) pairs, eliminate blocked dates, and validate station coverage.
+1. Create a Municipality-Date Grid:
+List every unique Municipality paired with every calendar date across target timeframe.
+2. Mark Blocked Days (Existing Footprints):
+For every existing event on date T, mark all dates from T - 14 to T + 14 as Blocked for that specific municipality.
+3. Find 29-Day Contiguous Free Windows:
+A candidate date T_alt is only valid if none of the days in its required footprint [T_alt-14, T_alt+14] are marked as Blocked.
+	• Shortcut: Simply check the distance to the nearest existing wildfire event in that municipality. 
+    If the previous event ended at least 29 days ago AND the next event is at least 29 days away, T_alt is spatially and temporally free.
+4. Validate the 14-Day Prep Supply:
+Take surviving T_alt dates, expand their 14-day preparation windows [T_alt-14, T_alt-1], and join them to the Stations table using your original rules (Prep_Date BETWEEN Station.Start_Date AND Station.End_Date + Location Match).
+	• If all 14 preparation days have at least 1 active station, T_alt is a confirmed valid slot.
+
+
