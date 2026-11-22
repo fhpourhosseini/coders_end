@@ -189,14 +189,14 @@ INSERT INTO public.gemeinde (name, bundesland_code) VALUES
     ('Sankt Johann in der Haide', 'STMK'),
     ('Sankt Kathrein am Offenegg', 'STMK'),
     ('Sankt Lambrecht', 'STMK'),
-    ('Sankt Leonhard am Forst', 'NOE'),
+    ('St. Leonhard am Forst', 'NOE'),
     ('Sankt Lorenzen am Wechsel', 'STMK'),
     ('Sankt Lorenzen im Mürztal', 'STMK'),
     ('Sankt Marein bei Graz', 'STMK'),
     ('Sankt Marein im Mürztal', 'STMK'),
     ('Sankt Marein-Feistritz', 'STMK'),
     ('Sankt Margarethen am Silberberg', 'STMK'),
-    ('Sankt Margarethen an der Raab', 'STMK'),
+    ('St. Margarethen an der Raab', 'STMK'),
     ('Sankt Margarethen bei Knittelfeld', 'STMK'),
     ('Sankt Margarethen im Burgenland', 'BGLD'),
     ('Sankt Margarethen im Lungau', 'SBG'),
@@ -335,7 +335,7 @@ INSERT INTO public.gemeinde (name, bundesland_code) VALUES
 ('St. Egyden am Steinfeld', 'NOE'),
 ('St. Florian', 'OOE'),
 ('St. Florian am Inn', 'OOE'),
-('St. Gallen', 'STMK'),
+('Sankt Gallen', 'STMK'),
 ('St. Gallenkirch', 'VBG'),
 ('St. Georgen am Längsee', 'K'),
 ('St. Georgen am Walde', 'OOE'),
@@ -364,7 +364,7 @@ INSERT INTO public.gemeinde (name, bundesland_code) VALUES
 ('St. Marienkirchen bei Schärding', 'OOE'),
 ('St. Martin', 'NOE'),
 ('St. Martin im Mühlkreis', 'OOE'),
-('St. Martin im Sulmtal', 'STMK'),
+('Sankt Martin im Sulmtal', 'STMK'),
 ('St. Nikola an der Donau', 'OOE'),
 ('St. Oswald', 'NOE'),
 ('St. Oswald bei Freistadt', 'OOE'),
@@ -675,6 +675,47 @@ INSERT INTO public.gemeinde (name, bundesland_code) VALUES
 ('Zwettl-Niederösterreich', 'NOE'),
 ('Zwischenwasser', 'VBG'),
 ('Zwölfaxing', 'NOE')
+ON CONFLICT (name, bundesland_code) DO NOTHING;
+
+INSERT INTO public.gemeinde (name, bundesland_code) VALUES
+('Oberlienz', 'T'),
+('Pupping', 'OOE'),
+('Schiedlberg', 'OOE'),
+('Kirchberg-Thening', 'OOE'),
+('Ebenthal', 'NOE'),
+('Wieselburg-Land', 'NOE'),
+('Straning-Grafenberg', 'NOE'),
+('Hundsheim', 'NOE'),
+('Rohrendorf bei Krems', 'NOE'),
+('Voitsberg', 'STMK'),
+('Hardegg', 'NOE')
+ON CONFLICT (name, bundesland_code) DO NOTHING;
+
+INSERT INTO public.gemeinde (name, bundesland_code) VALUES
+('Altlengbach','NOE'),
+('Burgauberg-Neudauberg','BGLD'),
+('Feldbach','STMK'),
+('Großdietmanns','NOE'),
+('Kaltenbach','T'),
+('Kirchberg am Walde','NOE'),
+('Kirchschlag in der Buckligen Welt','NOE'),
+('Kirnberg an der Mank','NOE'),
+('Kohfidisch','BGLD'),
+('Loich','NOE'),
+('Oberhaag','STMK'),
+('Öblarn','STMK'),
+('Sankt Andrä im Lungau','SBG'),
+('Sankt Veit im Pongau','SBG'),
+('Seckau','STMK'),
+('Sellrain','T'),
+('St. Bernhard-Frauenhofen','NOE'),
+('Stronsdorf','NOE'),
+('St. Valentin','OOE'),
+('Traboch','STMK'),
+('Unserfrau-Altweitra','NOE'),
+('Walchsee','T'),
+('Wölbling','NOE'),
+('Zwentendorf an der Donau','NOE')
 ON CONFLICT (name, bundesland_code) DO NOTHING;
 
 COMMIT;

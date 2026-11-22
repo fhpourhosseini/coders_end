@@ -995,5 +995,4 @@ INSERT INTO public.gemeinde (name, bundesland_code) VALUES
 ('Perg', 'OOE'),
 ('Pernegg', 'NOE')
 ON CONFLICT (name, bundesland_code) DO NOTHING;
-
 COMMIT;

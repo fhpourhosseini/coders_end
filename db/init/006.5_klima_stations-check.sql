@@ -22,9 +22,14 @@ COMMIT;
 
 DO $$
 DECLARE
-    -- Expected counts from your attached JSON file (adjust if you merged extra local rows)
+    -- Expected counts 
+    -- • Total count: 1102 ?? stations 
+    -- • Min ID: 1 (Aflenz) • Max ID: 21302 (Eisenkappel)
+    -- • Count of groups: 104 unique group_ids
+    -- • Combined stations: 216
+    -- • Individual stations: 886 ?? 
     v_exp_combined      INT := 216;
-    v_exp_individual INT := 723;
+    v_exp_individual INT := 886;
     
     -- Actual database counts
     v_combined_count      INT;
@@ -35,7 +40,7 @@ DECLARE
     v_invalid_coords_dates INT;
     v_missing_key_ids     INT;
 BEGIN
-    -- 1. Gather loaded station counts
+    -- loaded station counts
     SELECT 
         COUNT(*) FILTER (WHERE type = 'COMBINED'),
         COUNT(*) FILTER (WHERE type = 'INDIVIDUAL'),
@@ -43,7 +48,7 @@ BEGIN
     INTO v_combined_count, v_individual_count, v_total_count
     FROM public.klima_stations;
 
-    -- 2. Verify exact row counts match the attached JSON
+    -- exact row counts
     IF v_combined_count <> v_exp_combined THEN
         RAISE EXCEPTION 'STATION LOAD ERROR: Expected % COMBINED stations, but found %.', 
             v_exp_combined, v_combined_count;
@@ -54,7 +59,7 @@ BEGIN
             v_exp_individual, v_individual_count;
     END IF;
 
-    -- 3. Check for unmapped states (bundesland_code is NULL)
+    -- unmapped states (bundesland_code is NULL)
     SELECT COUNT(*) INTO v_unmapped_states
     FROM public.klima_stations
     WHERE bundesland_code IS NULL OR state IS NULL;
@@ -63,7 +68,7 @@ BEGIN
         RAISE EXCEPTION 'STATION LOAD ERROR: Found % stations with missing state or bundesland_code.', v_unmapped_states;
     END IF;
 
-    -- 4. Check for orphaned group_id references (every INDIVIDUAL group_id must match a COMBINED station_id)
+    -- orphaned group_id references (every INDIVIDUAL group_id must match a COMBINED station_id)
     SELECT COUNT(*) INTO v_orphaned_groups
     FROM public.klima_stations ind
     LEFT JOIN public.klima_stations grp 
@@ -77,7 +82,7 @@ BEGIN
         RAISE EXCEPTION 'STATION LOAD ERROR: Found % INDIVIDUAL stations pointing to a non-existent COMBINED group_id.', v_orphaned_groups;
     END IF;
 
-    -- 5. Check for missing coordinates or invalid valid_from/valid_to dates
+    -- missing coordinates or invalid valid_from/valid_to dates
     SELECT COUNT(*) INTO v_invalid_coords_dates
     FROM public.klima_stations
     WHERE lat IS NULL 
@@ -89,15 +94,15 @@ BEGIN
         RAISE EXCEPTION 'STATION LOAD ERROR: Found % stations with missing coordinates or invalid date ranges.', v_invalid_coords_dates;
     END IF;
 
-    -- 6. Spot-check boundary IDs from the attached JSON (1, 278, 500, 21302)
-    --SELECT COUNT(*) INTO v_missing_key_ids
-    --FROM (VALUES (1), (278), (500), (21302)) AS req(id)
-    --LEFT JOIN public.klima_stations ks ON req.id = ks.station_id
-    --WHERE ks.station_id IS NULL;
+    -- IDs from the attached JSON (13400, 278, 500, 21302)
+    SELECT COUNT(*) INTO v_missing_key_ids
+    FROM (VALUES (13400), (278), (500), (21302)) AS req(id)
+    LEFT JOIN public.klima_stations ks ON req.id = ks.station_id
+    WHERE ks.station_id IS NULL;
 
-    --IF v_missing_key_ids > 0 THEN
-    --    RAISE EXCEPTION 'STATION LOAD ERROR: % boundary station IDs (from 1, 278, 500, 21302) are missing.', v_missing_key_ids;
-    --END IF;
+    IF v_missing_key_ids > 0 THEN
+        RAISE EXCEPTION 'STATION LOAD ERROR: % boundary station IDs (from 1, 278, 500, 21302) are missing.', v_missing_key_ids;
+    END IF;
 
     -- If all checks pass:
     RAISE NOTICE '=== VALIDATION PASSED: All % stations (% COMBINED, % INDIVIDUAL) verified cleanly with zero errors.', 
