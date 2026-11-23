@@ -1,3 +1,4 @@
+-- The official postgres:17 image automatically executes any .sql, .sql.gz, or .sh files placed in /docker-entrypoint-initdb.d/ during initial startup
 BEGIN;
 
 -- Create Staging Schema if it doesn't exist

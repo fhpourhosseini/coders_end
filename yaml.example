@@ -1,0 +1,73 @@
+services:
+  # 1. Finds and downloads the latest timestamped .dump asset from GitHub Releases
+  db-downloader:
+    image: alpine/curl:latest
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN} # Optional for public repos, required for private
+      - REPO=owner/repo-name
+    volumes:
+      - init_scripts:/init
+    entrypoint: /bin/sh -c
+    command:
+      - |
+        set -e
+        echo "Searching latest release in $$REPO for a .dump file..."
+        
+        AUTH_HEADER=""
+        if [ -n "$$GITHUB_TOKEN" ]; then
+          AUTH_HEADER="Authorization: Bearer $$GITHUB_TOKEN"
+        fi
+
+        # Query GitHub API for the latest release metadata
+        RELEASE_JSON=$$(curl -s $${AUTH_HEADER:+-H "$$AUTH_HEADER"} \
+          "https://github.com")
+
+        # Extract the asset name (for logging) and API asset URL for the .dump file
+        ASSET_NAME=$$(echo "$$RELEASE_JSON" | grep -o '"name": *"[^"]*\.dump"' | head -n 1 | cut -d '"' -f 4)
+        ASSET_URL=$$(echo "$$RELEASE_JSON" | grep -B 3 "\"name\": \"$$ASSET_NAME\"" | grep '"url":' | head -n 1 | cut -d '"' -f 4)
+
+        if [ -z "$$ASSET_URL" ]; then
+          echo "Error: No .dump asset found in the latest release!"
+          exit 1
+        fi
+
+        echo "Downloading $$ASSET_NAME..."
+        curl -fL $${AUTH_HEADER:+-H "$$AUTH_HEADER"} \
+          -H "Accept: application/octet-stream" \
+          "$$ASSET_URL" -o /init/snapshot.dump
+
+        echo "Successfully downloaded $$ASSET_NAME to /init/snapshot.dump"
+
+  # 2. Postgres 17 (Unchanged)
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: app_password
+      POSTGRES_DB: app_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - init_scripts:/docker-entrypoint-initdb.d
+      - ./restore.sh:/docker-entrypoint-initdb.d/01-restore.sh:ro
+    tmpfs:
+      - /var/lib/postgresql/data
+    depends_on:
+      db-downloader:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app_user -d app_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # 3. Your Application (Unchanged)
+  app:
+    image: your-app-image:latest
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  init_scripts:

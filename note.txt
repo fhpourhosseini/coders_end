@@ -1,0 +1,36 @@
+
+ Init-Container + /docker-entrypoint-initdb.d/
+
+The official postgres:17 image automatically executes any .sql, .sql.gz, or .sh files placed in /docker-entrypoint-initdb.d/ during initial startup.
+
+• How it works: Run a lightweight helper container (e.g., alpine or amazon/aws-cli) first to download the dump into a shared volume mounted to /docker-entrypoint-initdb.d/.
+• Note: If using the faster .dump format, place a small restore.sh script in that folder containing:
+#!/bin/bash
+pg_restore -U postgres -d training_db --no-owner /docker-entrypoint-initdb.d/backup.dump
+
+
+
+pg_dump -h postgres-db-wb -U postgres -d training_db --no-owner --no-acl -f backup.sql
+
+pg_dump -h postgres-db-wb -U postgres -d training_db -Fc --no-owner --no-acl -f backup.dump
+
+OR
+• You build a custom image (FROM postgres:17), download or 
+COPY the dump into /docker-entrypoint-initdb.d/ during docker build, 
+and push the image to a private registry.
+• Bonus optimization: You can run pg_restore during the image build into a non-volume directory 
+(like /var/lib/postgresql/seed_data) and 
+point PGDATA there so the container starts in milliseconds without waiting for restoration.
+
+
+
+ Saved 14 daily records to public.klima_data & marked 'completed'
+[15/5016] Station 1: 2026-07-16 to 2026-09-03 (50 days)...
+
+
+SELECT count(1) FROM public.wildfire_station_dates where status = 'completed'
+union
+SELECT count(1) FROM public.klima_data where tlmax is not null
+
+[3544/5016] Station 150: 2011-02-24 to 2011-03-09 (14 days)...
+  [!] HTTP 429 Rate Limit hit. Waiting 60s (attempt 1/3)...
