@@ -1,0 +1,1 @@
+ pg_restore -d training_db /docker-entrypoint-initdb.d/training_db_snapshot.dump
