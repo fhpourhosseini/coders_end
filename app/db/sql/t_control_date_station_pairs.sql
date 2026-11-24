@@ -148,3 +148,5 @@ ADD COLUMN IF NOT EXISTS api_request text;
 
 ALTER TABLE IF EXISTS public.control_date_station_pairs 
 ADD COLUMN IF NOT EXISTS status character varying(20) DEFAULT 'pending'::character varying;
+
+CREATE INDEX idx_control_date_station_pairs_date ON control_date_station_pairs (valid_control_date);
