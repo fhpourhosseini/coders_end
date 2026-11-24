@@ -177,6 +177,10 @@ def get_ergebnisse(username: str, bundesland: Optional[str] = None):
                     ORDER BY abfrage_zeit DESC
                 """, (username,))
             rows = cur.fetchall()
+            for row in rows:
+                prozent = row["wahrscheinlichkeit_prozent"]
+                row["waldbrand_ja_nein"] = "🟨🟧⬛ Ja" if prozent >= 50 else "🟦 Nein"
+                row["wahrscheinlichkeit_anzeige"] = f"{prozent}%"
         return rows
     finally:
         conn.close()

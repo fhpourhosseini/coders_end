@@ -78,7 +78,7 @@ def render_styled_table(df_display: pd.DataFrame):
             overflow-y: auto !important;
             box-sizing: border-box;
             scrollbar-width: auto !important;
-            scrollbar-color: #666666 #2b2d38 !important;
+            scrollbar-color: ##888888 #2b2d38 !important;
         }}
 
         div.custom-scroll-box::-webkit-scrollbar {{
@@ -89,7 +89,7 @@ def render_styled_table(df_display: pd.DataFrame):
             background: #2b2d38 !important;
         }}
         div.custom-scroll-box::-webkit-scrollbar-thumb {{
-            background-color: #666666 !important;
+            background-color: #888888  !important;
             border-radius: 6px !important;
             border: 3px solid #2b2d38 !important;
         }}
