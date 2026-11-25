@@ -6,3 +6,4 @@ streamlit
 pandas
 requests
 psycopg2-binary
+#openpyxl>=3.1.0 nur fü excelexport
