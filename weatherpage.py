@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import requests
@@ -19,8 +18,14 @@ API_BASE_URL = "http://fastapi-container:8000"
 
 
 # ==========================================
-# API-FUNKTION
+# HILFSFUNKTIONEN
 # ==========================================
+
+def toggle_vollbild():
+    st.session_state["tabelle_vollbild"] = not st.session_state.get(
+        "tabelle_vollbild", False
+    )
+
 
 def fetch_results_from_api(
     username: str,
@@ -80,12 +85,28 @@ def render_results_modular(df_data):
         st.warning("Keine Daten für die Anzeige vorhanden.")
         return
 
-    ansichts_modus = st.radio(
-        "Darstellungsform wählen:",
-        options=["📋 Tabelle", "🗺️ Interaktive Karte"],
-        horizontal=True,
-        label_visibility="collapsed"
-    )
+    # Obere Leiste: Links Darstellungsform, rechts Vollbild-Button
+    col_radio, col_fullscreen = st.columns([4, 1])
+
+    with col_radio:
+        ansichts_modus = st.radio(
+            "Darstellungsform wählen:",
+            options=["📋 Tabelle", "🗺️ Interaktive Karte"],
+            horizontal=True,
+            label_visibility="collapsed"
+        )
+
+    with col_fullscreen:
+        btn_label = (
+            "↙️ Verkleinern"
+            if st.session_state.get("tabelle_vollbild", False)
+            else "↗️ Vollbild"
+        )
+        st.button(
+            btn_label,
+            on_click=toggle_vollbild,
+            use_container_width=True
+        )
 
     # ==========================================
     # TABELLENANSICHT
@@ -94,12 +115,10 @@ def render_results_modular(df_data):
     if ansichts_modus == "📋 Tabelle":
         st.markdown("### 📋 Waldbrand-Ergebnisse")
 
-        # Diese Spalte ist fix und kann nicht abgewählt werden.
         fixe_spalten = {
             "Bundesland": "bundesland"
         }
 
-        # Diese Spalten können über das Popup-Menü ein- und ausgeblendet werden.
         optionale_spalten = {
             "Gemeinde": "gemeinde",
             "Breitengrad (Lat)": "latitude",
@@ -109,7 +128,6 @@ def render_results_modular(df_data):
             "Zeitpunkt": "abfrage_zeit"
         }
 
-        # Nur Spalten berücksichtigen, die tatsächlich von der API geliefert wurden.
         verfuegbare_fixe_spalten = {
             name: spalte
             for name, spalte in fixe_spalten.items()
@@ -122,14 +140,11 @@ def render_results_modular(df_data):
             if spalte in df_data.columns
         }
 
-        # Checkbox-Zustände beim ersten Aufruf auf True setzen.
-        # Bereits vorhandene Benutzerauswahlen bleiben erhalten.
         for spalte in verfuegbare_optionale_spalten.values():
             state_key = f"spaltenauswahl_{spalte}"
             if state_key not in st.session_state:
                 st.session_state[state_key] = True
 
-        # Popup-Menü und CSV-Download rechts oberhalb der Tabelle.
         _platzhalter, col_popup, col_csv = st.columns([6, 1, 2])
 
         with col_popup:
@@ -143,8 +158,6 @@ def render_results_modular(df_data):
                     state_key = f"spaltenauswahl_{spalte}"
                     st.checkbox(name, key=state_key)
 
-        # Nach dem Erzeugen der Checkboxen den aktuellen Zustand auslesen.
-        # Die fixe Spalte wird immer zuerst eingefügt.
         ausgewaehlte_spalten = list(verfuegbare_fixe_spalten.values())
 
         for name, spalte in verfuegbare_optionale_spalten.items():
@@ -175,7 +188,6 @@ def render_results_modular(df_data):
             for spalte in ausgewaehlte_spalten
         ]
 
-        # CSV-Datei mit denselben Spalten erstellen, die in der Tabelle sichtbar sind.
         csv_daten = df_display.to_csv(
             index=False,
             sep=";"
@@ -230,15 +242,11 @@ def render_results_modular(df_data):
                 )
                 return
 
-            st.caption(
-                "Die Punkte markieren die analysierten Gemeinden:"
-            )
+            st.caption("Die Punkte markieren die analysierten Gemeinden:")
             st.map(df_map)
 
         except Exception as map_err:
-            st.error(
-                f"Fehler bei der Kartendarstellung: {map_err}"
-            )
+            st.error(f"Fehler bei der Kartendarstellung: {map_err}")
 
 
 # ==========================================
@@ -247,10 +255,7 @@ def render_results_modular(df_data):
 
 def show_dashboard(username: str):
 
-    # ==========================================
-    # SESSION STATES INITIALISIEREN
-    # ==========================================
-
+    # Session States initialisieren
     if "aktuelle_ansicht" not in st.session_state:
         st.session_state["aktuelle_ansicht"] = "wetter"
 
@@ -260,297 +265,159 @@ def show_dashboard(username: str):
     if "bereits_analysiert" not in st.session_state:
         st.session_state["bereits_analysiert"] = None
 
-    # ==========================================
-    # SIDEBAR
-    # ==========================================
+    if "tabelle_vollbild" not in st.session_state:
+        st.session_state["tabelle_vollbild"] = False
 
+    # Sidebar
     with st.sidebar:
-
-        st.write(
-            f"👤 Eingeloggt als: **{username}**"
-        )
+        st.write(f"👤 Eingeloggt als: **{username}**")
 
         if st.button(
             "Abmelden",
             type="secondary",
             use_container_width=True
         ):
-
             st.session_state["logged_in"] = False
             st.session_state["username"] = ""
             st.session_state["bereits_analysiert"] = None
             st.session_state["ausgewaehltes_bundesland"] = None
-
+            st.session_state["tabelle_vollbild"] = False
             st.rerun()
 
         st.markdown("---")
 
-    # ==========================================
-    # HAUPTLAYOUT
-    # ==========================================
+    # Hauptlayout (Vollbild vs. 2 Spalten)
+    if st.session_state["tabelle_vollbild"]:
+        col_rechts = st.container()
+        col_links = None
+    else:
+        col_links, col_rechts = st.columns([1, 2], gap="large")
 
-    col_links, col_rechts = st.columns(
-        [1, 2],
-        gap="large"
-    )
+    # Linke Seite: Steuerung (nur sichtbar, wenn nicht im Vollbild)
+    if col_links is not None:
+        with col_links:
+            st.subheader("Steuerung")
 
-    # ==========================================
-    # LINKE SEITE: STEUERUNG
-    # ==========================================
-
-    with col_links:
-
-        st.subheader("Steuerung")
-
-        ansicht = st.radio(
-            "Modus wählen:",
-            options=[
-                "🔥 Aktuelle Analyse",
-                "⏳ Meine Historie"
-            ],
-            label_visibility="collapsed"
-        )
-
-        st.session_state["aktuelle_ansicht"] = (
-            "wetter"
-            if ansicht == "🔥 Aktuelle Analyse"
-            else "history"
-        )
-
-        st.markdown("---")
-
-        # ==========================================
-        # AKTUELLE ANALYSE
-        # ==========================================
-
-        if st.session_state["aktuelle_ansicht"] == "wetter":
-
-            bundeslaender = [
-                "Wien",
-                "Niederösterreich",
-                "Oberösterreich",
-                "Steiermark",
-                "Tirol",
-                "Kärnten",
-                "Salzburg",
-                "Vorarlberg",
-                "Burgenland"
-            ]
-
-            auswahl = st.selectbox(
-                "Bundesland wählen, um Analyse zu starten:",
-                options=bundeslaender,
-                index=None,
-                placeholder="Bundesland auswählen..."
+            ansicht = st.radio(
+                "Modus wählen:",
+                options=[
+                    "🔥 Aktuelle Analyse",
+                    "⏳ Meine Historie"
+                ],
+                index=0 if st.session_state["aktuelle_ansicht"] == "wetter" else 1,
+                label_visibility="collapsed"
             )
 
-            if auswahl:
+            st.session_state["aktuelle_ansicht"] = (
+                "wetter"
+                if ansicht == "🔥 Aktuelle Analyse"
+                else "history"
+            )
 
-                st.session_state[
-                    "ausgewaehltes_bundesland"
-                ] = auswahl
+            st.markdown("---")
 
-                if (
-                    st.session_state["bereits_analysiert"]
-                    != auswahl
-                ):
+            if st.session_state["aktuelle_ansicht"] == "wetter":
+                bundeslaender = [
+                    "Wien", "Niederösterreich", "Oberösterreich",
+                    "Steiermark", "Tirol", "Kärnten",
+                    "Salzburg", "Vorarlberg", "Burgenland"
+                ]
 
-                    fortschritt = st.progress(
-                        0,
-                        text="Sende Anfrage an Backend-API..."
-                    )
+                auswahl = st.selectbox(
+                    "Bundesland wählen, um Analyse zu starten:",
+                    options=bundeslaender,
+                    index=None,
+                    placeholder="Bundesland auswählen..."
+                )
 
-                    with st.status(
-                        f"Analyse für **{auswahl}** läuft...",
-                        expanded=True
-                    ) as status:
+                if auswahl:
+                    st.session_state["ausgewaehltes_bundesland"] = auswahl
 
-                        try:
+                    # ---> HIER GEHT ES WEITER <---
+                    if st.session_state["bereits_analysiert"] != auswahl:
+                        fortschritt = st.progress(
+                            0,
+                            text="Sende Anfrage an Backend-API..."
+                        )
 
-                            st.write(
-                                "🚀 Starte KI-Pipeline im Backend..."
-                            )
+                        with st.status(
+                            f"Analyse für **{auswahl}** läuft...",
+                            expanded=True
+                        ) as status:
+                            try:
+                                st.write("🚀 Starte KI-Pipeline im Backend...")
 
-                            start_resp = requests.post(
-                                f"{API_BASE_URL}/start",
-                                json={
-                                    "username": username,
-                                    "bundesland": auswahl
-                                },
-                                timeout=10
-                            )
-
-                            start_resp.raise_for_status()
-
-                            job_id = start_resp.json()["job_id"]
-
-                            fortschritt.progress(
-                                30,
-                                text=(
-                                    "Pipeline gestartet. "
-                                    "Warte auf Ergebnisse..."
-                                )
-                            )
-
-                            st.write(
-                                "⏳ KI-Modell berechnet Waldbrandrisiko..."
-                            )
-
-                            # Status der Backend-Pipeline abfragen
-
-                            while True:
-
-                                status_resp = requests.get(
-                                    f"{API_BASE_URL}/status/{job_id}",
+                                start_resp = requests.post(
+                                    f"{API_BASE_URL}/start",
+                                    json={
+                                        "username": username,
+                                        "bundesland": auswahl
+                                    },
                                     timeout=10
                                 )
-
-                                status_resp.raise_for_status()
-
-                                status_data = status_resp.json()
-
-                                current_status = status_data.get(
-                                    "status"
-                                )
-
-                                # Pipeline erfolgreich abgeschlossen
-
-                                if current_status == "completed":
-
-                                    fortschritt.progress(
-                                        100,
-                                        text="Fertig!"
-                                    )
-
-                                    status.update(
-                                        label=(
-                                            f"Analyse für {auswahl} "
-                                            "abgeschlossen!"
-                                        ),
-                                        state="complete",
-                                        expanded=False
-                                    )
-
-                                    st.session_state[
-                                        "bereits_analysiert"
-                                    ] = auswahl
-
-                                    break
-
-                                # Pipeline fehlgeschlagen
-
-                                elif current_status == "failed":
-
-                                    status.update(
-                                        label="Fehler in der KI-Pipeline!",
-                                        state="error"
-                                    )
-
-                                    st.error(
-                                        "Die Berechnung im Backend "
-                                        "ist fehlgeschlagen."
-                                    )
-
-                                    break
-
-                                # Pipeline läuft noch
+                                start_resp.raise_for_status()
+                                job_id = start_resp.json()["job_id"]
 
                                 fortschritt.progress(
-                                    65,
-                                    text="Berechnung läuft..."
+                                    30,
+                                    text="Pipeline gestartet. Warte auf Ergebnisse..."
                                 )
+                                st.write("⏳ KI-Modell berechnet Waldbrandrisiko...")
 
-                                time.sleep(1.5)
+                                while True:
+                                    status_resp = requests.get(
+                                        f"{API_BASE_URL}/status/{job_id}",
+                                        timeout=10
+                                    )
+                                    status_resp.raise_for_status()
+                                    status_data = status_resp.json()
+                                    current_status = status_data.get("status")
 
-                        except requests.exceptions.RequestException as req_err:
+                                    if current_status == "completed":
+                                        fortschritt.progress(100, text="Fertig!")
+                                        status.update(
+                                            label=f"Analyse für {auswahl} abgeschlossen!",
+                                            state="complete",
+                                            expanded=False
+                                        )
+                                        st.session_state["bereits_analysiert"] = auswahl
+                                        break
 
-                            status.update(
-                                label="Verbindungsfehler zur API",
-                                state="error"
-                            )
+                                    elif current_status == "failed":
+                                        status.update(
+                                            label="Fehler in der KI-Pipeline!",
+                                            state="error"
+                                        )
+                                        st.error(
+                                            "Die Berechnung im Backend ist fehlgeschlagen."
+                                        )
+                                        break
 
-                            st.error(
-                                f"Backend-API nicht erreichbar: {req_err}"
-                            )
+                                    fortschritt.progress(65, text="Berechnung läuft...")
+                                    time.sleep(1.5)
+
+                            except requests.exceptions.RequestException as req_err:
+                                status.update(
+                                    label="Verbindungsfehler zur API",
+                                    state="error"
+                                )
+                                st.error(f"Backend-API nicht erreichbar: {req_err}")
 
     # ==========================================
-    # RECHTE SEITE: ANZEIGE
+    # RECHTE SEITE: ERGEBNISSE LADEN & ANZEIGEN
     # ==========================================
-
     with col_rechts:
-
-        # ==========================================
-        # AKTUELLE WALDBRANDANALYSE
-        # ==========================================
-
-        if st.session_state["aktuelle_ansicht"] == "wetter":
-
-            st.subheader(
-                "🔥 Aktuelle Waldbrandgefahr-Analyse"
-            )
-
-            aktuelle_auswahl = st.session_state[
-                "ausgewaehltes_bundesland"
-            ]
-
-            if aktuelle_auswahl:
-
-                st.markdown(
-                    f"Ergebnisse für das Bundesland: "
-                    f"**{aktuelle_auswahl}**"
-                )
-
-                try:
-
-                    df_ergebnisse = fetch_results_from_api(
-                        username,
-                        bundesland=aktuelle_auswahl
-                    )
-
-                    render_results_modular(
-                        df_ergebnisse
-                    )
-
-                except Exception as e:
-
-                    st.error(
-                        f"Fehler beim Laden der Ergebnisse über API: {e}"
-                    )
-
+        try:
+            if st.session_state["aktuelle_ansicht"] == "wetter":
+                bundesland = st.session_state["ausgewaehltes_bundesland"]
+                if bundesland:
+                    df_ergebnisse = fetch_results_from_api(username, bundesland)
+                    render_results_modular(df_ergebnisse)
+                else:
+                    st.info("👈 Bitte wähle links ein Bundesland für die Analyse aus.")
             else:
+                df_historie = fetch_results_from_api(username)
+                render_results_modular(df_historie)
 
-                st.info(
-                    "Bitte wähle links ein Bundesland aus, "
-                    "um die KI-Waldbrandvorhersage zu starten."
-                )
-
-        # ==========================================
-        # HISTORIE
-        # ==========================================
-
-        elif st.session_state["aktuelle_ansicht"] == "history":
-
-            st.subheader(
-                "⏳ Deine vergangenen Vorhersagen"
-            )
-
-            st.caption(
-                "Hier siehst du deine historischen Abfragen."
-            )
-
-            try:
-
-                df_historie = fetch_results_from_api(
-                    username,
-                    bundesland=None
-                )
-
-                render_results_modular(
-                    df_historie
-                )
-
-            except Exception as e:
-
-                st.error(
-                    f"Fehler beim Laden der Historie: {e}"
-                )
+        except Exception as e:
+            st.error(f"Fehler beim Laden der Ergebnisse: {e}")

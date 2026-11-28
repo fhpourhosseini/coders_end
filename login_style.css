@@ -1,0 +1,45 @@
+/* 1. ALLE Tab-Reiter (egal ob button oder div, über role="tab") */
+[role="tab"],
+button[data-baseweb="tab"],
+div[data-testid="stTab"] button {
+    background-color: #822222 !important;
+    border: 1px solid #800000 !important;
+    border-radius: 6px 6px 0px 0px !important;
+    margin-right: 4px !important;
+    padding: 10px 20px !important;
+}
+
+/* 2. Schriftfarbe IM Tab-Reiter erzwingen (helles Weiß statt dunklem Rot #630808) */
+[role="tab"] *,
+[role="tab"] p,
+[role="tab"] div,
+button[data-baseweb="tab"] * {
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+}
+
+/* 3. Aktiver Tab: Kräftiges Blau mit weißer Linie unten */
+[role="tab"][aria-selected="true"],
+button[data-baseweb="tab"][aria-selected="true"] {
+    background-color: #3B4CCA !important;
+    border: none !important;
+}
+
+/* 4. Hover-Effekt 
+[role="tab"]:hover,
+button[data-baseweb="tab"]:hover {
+    background-color: #454859 !important;
+}*/
+
+/* 5. Buttons (inkl. Form-Submit-Buttons) */
+div.stButton > button,
+div[data-testid="stFormSubmitButton"] > button {
+    background-color: #3B4CCA !important;
+    border: none !important;
+}
+
+div.stButton > button p,
+div[data-testid="stFormSubmitButton"] > button p {
+    color: #FFFFFF !important;
+    font-weight: bold !important;
+}
